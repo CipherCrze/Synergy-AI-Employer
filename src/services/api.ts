@@ -1,146 +1,183 @@
-import { useState, useEffect, useCallback } from 'react';
-import { apiService } from '../services/api';
+// API Service for Synergy AI Dashboard
+const API_BASE_URL = 'http://localhost:8000'; // Adjust based on your backend URL
 
-interface UseApiState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-}
-
-export function useApi<T>(
-  apiCall: () => Promise<T>,
-  dependencies: any[] = [],
-  autoFetch: boolean = true
-) {
-  const [state, setState] = useState<UseApiState<T>>({
-    data: null,
-    loading: false,
-    error: null,
-  });
-
-  const fetchData = useCallback(async () => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+class ApiService {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const url = `${API_BASE_URL}${endpoint}`;
     
+    const config: RequestInit = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    };
+
     try {
-      const result = await apiCall();
-      setState({ data: result, loading: false, error: null });
+      const response = await fetch(url, config);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
     } catch (error) {
-      setState({
-        data: null,
-        loading: false,
-        error: error instanceof Error ? error.message : 'An error occurred',
-      });
+      console.error(`API request failed for ${endpoint}:`, error);
+      throw error;
     }
-  }, dependencies);
+  }
 
-  useEffect(() => {
-    if (autoFetch) {
-      fetchData();
-    }
-  }, [fetchData, autoFetch]);
+  // Dashboard Summary
+  async getDashboardSummary() {
+    return this.request('/api/dashboard/summary');
+  }
 
-  const refetch = useCallback(() => {
-    fetchData();
-  }, [fetchData]);
+  // Occupancy Data
+  async getOccupancyData(timeRange: string = 'today') {
+    return this.request(`/api/occupancy?timeRange=${timeRange}`);
+  }
 
-  return {
-    ...state,
-    refetch,
-  };
+  // Space Data
+  async getSpaceData() {
+    return this.request('/api/spaces');
+  }
+
+  // Environmental Data
+  async getEnvironmentalData() {
+    return this.request('/api/environmental');
+  }
+
+  // Weekly Trend
+  async getWeeklyTrend() {
+    return this.request('/api/trends/weekly');
+  }
+
+  // Zone Heatmap
+  async getZoneHeatmap() {
+    return this.request('/api/zones/heatmap');
+  }
+
+  // Employees
+  async getEmployees(params: {
+    search?: string;
+    department?: string;
+    status?: string;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/employees${queryString ? `?${queryString}` : ''}`);
+  }
+
+  // Detailed Spaces
+  async getDetailedSpaces(params: {
+    search?: string;
+    status_filter?: string;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/spaces/detailed${queryString ? `?${queryString}` : ''}`);
+  }
+
+  // Alerts
+  async getAlerts(params: {
+    severity?: string;
+    resolved?: boolean;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/alerts${queryString ? `?${queryString}` : ''}`);
+  }
+
+  // Predictions
+  async getPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
+    return this.request(`/api/predictions?metricType=${metricType}&forecastDays=${forecastDays}`);
+  }
+
+  // Dashboard Predictions
+  async getDashboardPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
+    return this.request(`/api/dashboard/predictions?metricType=${metricType}&forecastDays=${forecastDays}`);
+  }
+
+  // Dashboard Optimization
+  async getDashboardOptimization(params: {
+    category?: string;
+    priority?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/dashboard/optimization${queryString ? `?${queryString}` : ''}`);
+  }
+
+  // Optimization Suggestions
+  async getOptimizationSuggestions(params: {
+    category?: string;
+    priority?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/optimization/suggestions${queryString ? `?${queryString}` : ''}`);
+  }
+
+  // Energy Analytics
+  async getEnergyData(timeRange: string = 'today') {
+    return this.request(`/api/energy?timeRange=${timeRange}`);
+  }
+
+  // Reports
+  async generateReport(reportType: string, params: any = {}) {
+    return this.request('/api/reports/generate', {
+      method: 'POST',
+      body: JSON.stringify({ reportType, ...params }),
+    });
+  }
+
+  // Authentication
+  async login(credentials: { username: string; password: string; userType: string }) {
+    return this.request('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+  }
+
+  async logout() {
+    return this.request('/api/auth/logout', {
+      method: 'POST',
+    });
+  }
 }
 
-// Specific hooks for common API calls
-export function useOccupancyData(timeRange: string = 'today') {
-  return useApi(
-    () => apiService.getOccupancyData(timeRange),
-    [timeRange]
-  );
-}
-
-export function useSpaceData() {
-  return useApi(() => apiService.getSpaceData());
-}
-
-export function useEnvironmentalData() {
-  return useApi(() => apiService.getEnvironmentalData());
-}
-
-export function useWeeklyTrend() {
-  return useApi(() => apiService.getWeeklyTrend());
-}
-
-export function useZoneHeatmap() {
-  return useApi(() => apiService.getZoneHeatmap());
-}
-
-export function useEmployees(params: {
-  search?: string;
-  department?: string;
-  status?: string;
-  limit?: number;
-} = {}) {
-  return useApi(
-    () => apiService.getEmployees(params),
-    [params.search, params.department, params.status, params.limit]
-  );
-}
-
-export function useDetailedSpaces(params: {
-  search?: string;
-  status_filter?: string;
-  limit?: number;
-} = {}) {
-  return useApi(
-    () => apiService.getDetailedSpaces(params),
-    [params.search, params.status_filter, params.limit]
-  );
-}
-
-export function useAlerts(params: {
-  severity?: string;
-  resolved?: boolean;
-  limit?: number;
-} = {}) {
-  return useApi(
-    () => apiService.getAlerts(params),
-    [params.severity, params.resolved, params.limit]
-  );
-}
-
-export function useDashboardSummary() {
-  return useApi(() => apiService.getDashboardSummary());
-}
-
-export function usePredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
-  return useApi(
-    () => apiService.getPredictions(metricType, forecastDays),
-    [metricType, forecastDays]
-  );
-}
-
-export function useDashboardPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
-  return useApi(
-    () => apiService.getDashboardPredictions(metricType, forecastDays),
-    [metricType, forecastDays]
-  );
-}
-
-export function useDashboardOptimization(params: {
-  category?: string;
-  priority?: number;
-} = {}) {
-  return useApi(
-    () => apiService.getDashboardOptimization(params),
-    [params.category, params.priority]
-  );
-}
-
-export function useOptimizationSuggestions(params: {
-  category?: string;
-  priority?: number;
-} = {}) {
-  return useApi(
-    () => apiService.getOptimizationSuggestions(params),
-    [params.category, params.priority]
-  );
-}
+// Export singleton instance
+export const apiService = new ApiService();
