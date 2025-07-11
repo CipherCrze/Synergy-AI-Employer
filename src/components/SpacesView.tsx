@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Users, Thermometer, Volume2, Wifi, Coffee, Car, Shield, Plus, Edit, Trash2, Search, Filter, Grid, List, Eye, Settings } from 'lucide-react';
-import { useDetailedSpaces } from '../hooks/useApi';
+import { useDetailedSpaces } from '../hooks/useAPI';
 import { apiService } from '../services/api';
 
 interface SpacesViewProps {
