@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Users, Search, Filter, Plus, Edit, Trash2, Mail, Phone, MapPin, Calendar, Badge, Building2, Clock, Activity, UserCheck, UserX } from 'lucide-react';
-import { useEmployees } from '../hooks/useApi';
+import { useEmployees } from '../hooks/useAPI';
 import { apiService } from '../services/api';
 
 interface EmployeesViewProps {

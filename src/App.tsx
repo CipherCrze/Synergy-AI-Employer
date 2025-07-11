@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings } from 'lucide-react';
 import { apiService } from './services/api';
-import { useDashboardSummary, useOccupancyData, useSpaceData, useEnvironmentalData, useWeeklyTrend, useZoneHeatmap } from './hooks/useApi';
+import { useDashboardSummary, useOccupancyData, useSpaceData, useEnvironmentalData, useWeeklyTrend, useZoneHeatmap } from './hooks/useAPI';
 import LoginPage from './components/LoginPage';
 import ProfileSidebar from './components/ProfileSidebar';
 import OverviewView from './components/OverviewView';
