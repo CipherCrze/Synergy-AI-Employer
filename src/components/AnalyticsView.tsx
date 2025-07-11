@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, ScatterChart, Scatter, ComposedChart } from 'recharts';
 import { TrendingUp, Users, Clock, Calendar, Filter, Download, RefreshCw, BarChart3, PieChart as PieChartIcon, Activity, Zap } from 'lucide-react';
-import { usePredictions, useOptimizationSuggestions } from '../hooks/useApi';
+import { usePredictions, useOptimizationSuggestions } from '../hooks/useAPI';
 import { apiService } from '../services/api';
 
 interface AnalyticsViewProps {
