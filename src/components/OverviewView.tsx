@@ -132,29 +132,29 @@ const OverviewView: React.FC<OverviewViewProps> = ({
     <div className="space-y-8">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-medium text-gray-600">Overall Utilization</p>
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-sm font-semibold text-deloitte-gray-600">Overall Utilization</p>
+              <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? 
                   (spaceData.reduce((sum, space) => sum + space.current, 0) / 
                    spaceData.reduce((sum, space) => sum + space.capacity, 0) * 100).toFixed(1) : '0'}%
               </p>
-              <p className="text-sm text-green-600 mt-1">↑ 12% from last week</p>
+              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 12% from last week</p>
             </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-blue-600" />
+            <div className="w-14 h-14 bg-deloitte-primary bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
+              <TrendingUp className="w-7 h-7 text-deloitte-primary" />
             </div>
           </div>
-          <div className="h-16">
+          <div className="h-16 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={weeklyTrend.slice(0, 5)}>
                 <Line 
                   type="monotone" 
                   dataKey="utilization" 
-                  stroke="#3b82f6" 
-                  strokeWidth={2}
+                  stroke="#86BC25" 
+                  strokeWidth={3}
                   dot={false}
                 />
               </LineChart>
@@ -162,71 +162,72 @@ const OverviewView: React.FC<OverviewViewProps> = ({
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-medium text-gray-600">Active Users</p>
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-sm font-semibold text-deloitte-gray-600">Active Users</p>
+              <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? spaceData.reduce((sum, space) => sum + space.current, 0) : 0}
               </p>
-              <p className="text-sm text-green-600 mt-1">↑ 8% from yesterday</p>
+              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 8% from yesterday</p>
             </div>
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Users className="w-6 h-6 text-green-600" />
+            <div className="w-14 h-14 bg-deloitte-accent bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
+              <Users className="w-7 h-7 text-deloitte-accent" />
             </div>
           </div>
-          <div className="h-16">
+          <div className="h-16 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={spaceData.slice(0, 4)}>
-                <Bar dataKey="current" fill="#22c55e" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="current" fill="#00A651" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-medium text-gray-600">Cost Savings</p>
-              <p className="text-3xl font-bold text-gray-900">₹2.4L</p>
-              <p className="text-sm text-green-600 mt-1">↑ ₹45K this month</p>
+              <p className="text-sm font-semibold text-deloitte-gray-600">Cost Savings</p>
+              <p className="text-3xl font-bold text-deloitte-dark">₹2.4L</p>
+              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ ₹45K this month</p>
             </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-              <Thermometer className="w-6 h-6 text-orange-600" />
+            <div className="w-14 h-14 bg-deloitte-secondary bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
+              <Thermometer className="w-7 h-7 text-deloitte-secondary" />
             </div>
           </div>
-          <div className="h-16">
+          <div className="h-16 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={environmentalData.slice(0, 12)}>
                 <Area 
                   type="monotone" 
                   dataKey="temperature" 
-                  stroke="#ea580c" 
-                  fill="#fed7aa" 
+                  stroke="#0076A8" 
+                  fill="#0076A8" 
+                  fillOpacity={0.2}
                 />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-medium text-gray-600">Efficiency Score</p>
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-sm font-semibold text-deloitte-gray-600">Efficiency Score</p>
+              <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? 
                   (spaceData.reduce((sum, space) => sum + space.efficiency, 0) / spaceData.length).toFixed(0) : '0'}
               </p>
-              <p className="text-sm text-green-600 mt-1">↑ 5 points</p>
+              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 5 points</p>
             </div>
-            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-              <Zap className="w-6 h-6 text-yellow-600" />
+            <div className="w-14 h-14 bg-yellow-500 bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
+              <Zap className="w-7 h-7 text-yellow-600" />
             </div>
           </div>
-          <div className="h-16">
+          <div className="h-16 mt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <RadialBarChart data={[{value: 85, fill: '#eab308'}]} innerRadius="60%" outerRadius="90%">
-                <RadialBar dataKey="value" fill="#eab308" />
+              <RadialBarChart data={[{value: 85, fill: '#f59e0b'}]} innerRadius="60%" outerRadius="90%">
+                <RadialBar dataKey="value" fill="#f59e0b" />
               </RadialBarChart>
             </ResponsiveContainer>
           </div>
@@ -234,40 +235,40 @@ const OverviewView: React.FC<OverviewViewProps> = ({
       </div>
 
       {/* Alerts Section */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">Recent Alerts</h3>
-          <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          <h3 className="text-xl font-bold text-deloitte-dark">Recent Alerts</h3>
+          <button className="text-sm text-deloitte-primary hover:text-deloitte-accent font-semibold transition-colors">
             View All
           </button>
         </div>
         <div className="space-y-4">
           {alerts.map((alert, index) => (
-            <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+            <div key={index} className="flex items-start space-x-4 p-5 bg-deloitte-gray-50 rounded-xl hover:bg-deloitte-gray-100 transition-all duration-200 cursor-pointer border border-deloitte-gray-200">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                 alert.type === 'warning' ? 'bg-yellow-100' :
-                alert.type === 'success' ? 'bg-green-100' : 'bg-blue-100'
+                alert.type === 'success' ? 'bg-deloitte-accent bg-opacity-10' : 'bg-deloitte-primary bg-opacity-10'
               }`}>
                 {alert.type === 'warning' ? (
                   <AlertTriangle className={`w-5 h-5 ${
                     alert.type === 'warning' ? 'text-yellow-600' : ''
                   }`} />
                 ) : alert.type === 'success' ? (
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-deloitte-accent" />
                 ) : (
-                  <Activity className="w-5 h-5 text-blue-600" />
+                  <Activity className="w-5 h-5 text-deloitte-primary" />
                 )}
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-gray-900">{alert.title}</h4>
-                  <span className="text-xs text-gray-500 flex items-center">
+                  <h4 className="font-semibold text-deloitte-dark">{alert.title}</h4>
+                  <span className="text-xs text-deloitte-gray-500 flex items-center">
                     <Clock className="w-3 h-3 mr-1" />
                     {alert.time}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">{alert.message}</p>
-                <button className="text-sm text-blue-600 hover:text-blue-700 font-medium mt-2">
+                <p className="text-sm text-deloitte-gray-600 mt-1">{alert.message}</p>
+                <button className="text-sm text-deloitte-primary hover:text-deloitte-accent font-semibold mt-2 transition-colors">
                   {alert.action}
                 </button>
               </div>
@@ -280,17 +281,17 @@ const OverviewView: React.FC<OverviewViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Occupancy Trend */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">24-Hour Occupancy Trend</h3>
+            <h3 className="text-xl font-bold text-deloitte-dark">24-Hour Occupancy Trend</h3>
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                <span className="text-gray-600">Actual</span>
+                <div className="w-3 h-3 bg-deloitte-primary rounded-full"></div>
+                <span className="text-deloitte-gray-600 font-medium">Actual</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <span className="text-gray-600">Predicted</span>
+                <span className="text-deloitte-gray-600 font-medium">Predicted</span>
               </div>
             </div>
           </div>
@@ -312,10 +313,10 @@ const OverviewView: React.FC<OverviewViewProps> = ({
               <Line 
                 type="monotone" 
                 dataKey="occupancy" 
-                stroke="#3b82f6" 
+                stroke="#86BC25" 
                 strokeWidth={3}
-                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: '#3b82f6', strokeWidth: 2 }}
+                dot={{ fill: '#86BC25', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: '#86BC25', strokeWidth: 2 }}
               />
               <Line 
                 type="monotone" 
@@ -330,17 +331,17 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
 
         {/* Weekly Utilization Trend */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Weekly Utilization Trend</h3>
+            <h3 className="text-xl font-bold text-deloitte-dark">Weekly Utilization Trend</h3>
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                <span className="text-gray-600">Utilization %</span>
+                <div className="w-3 h-3 bg-deloitte-primary rounded-full"></div>
+                <span className="text-deloitte-gray-600 font-medium">Utilization %</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-gray-600">Efficiency %</span>
+                <div className="w-3 h-3 bg-deloitte-accent rounded-full"></div>
+                <span className="text-deloitte-gray-600 font-medium">Efficiency %</span>
               </div>
             </div>
           </div>
@@ -348,12 +349,12 @@ const OverviewView: React.FC<OverviewViewProps> = ({
             <AreaChart data={weeklyTrend}>
               <defs>
                 <linearGradient id="colorUtilization" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#86BC25" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#86BC25" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorEfficiency" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#00A651" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#00A651" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <XAxis dataKey="day" stroke="#6b7280" fontSize={12} tickLine={false} />
@@ -363,7 +364,7 @@ const OverviewView: React.FC<OverviewViewProps> = ({
               <Area
                 type="monotone"
                 dataKey="utilization"
-                stroke="#3b82f6"
+                stroke="#86BC25"
                 fillOpacity={1}
                 fill="url(#colorUtilization)"
                 name="Utilization %"
@@ -371,7 +372,7 @@ const OverviewView: React.FC<OverviewViewProps> = ({
               <Area
                 type="monotone"
                 dataKey="efficiency"
-                stroke="#22c55e"
+                stroke="#00A651"
                 fillOpacity={1}
                 fill="url(#colorEfficiency)"
                 name="Efficiency %"
@@ -382,26 +383,26 @@ const OverviewView: React.FC<OverviewViewProps> = ({
       </div>
 
       {/* Zone Activity Heatmap */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">Zone Activity Heatmap</h3>
+          <h3 className="text-xl font-bold text-deloitte-dark">Zone Activity Heatmap</h3>
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-blue-800 rounded"></div>
-                <span className="text-gray-600">Free</span>
+                <div className="w-4 h-4 bg-deloitte-secondary rounded"></div>
+                <span className="text-deloitte-gray-600 font-medium">Free</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-blue-400 rounded"></div>
-                <span className="text-gray-600">Assigned</span>
+                <div className="w-4 h-4 bg-deloitte-primary rounded"></div>
+                <span className="text-deloitte-gray-600 font-medium">Assigned</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-500 rounded"></div>
-                <span className="text-gray-600">Occupied</span>
+                <div className="w-4 h-4 bg-deloitte-gray-500 rounded"></div>
+                <span className="text-deloitte-gray-600 font-medium">Occupied</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-yellow-500 rounded"></div>
-                <span className="text-gray-600">Hot Desk</span>
+                <span className="text-deloitte-gray-600 font-medium">Hot Desk</span>
               </div>
             </div>
           </div>
@@ -419,29 +420,29 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
         
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-          <div className="p-4 bg-blue-50 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors">
-            <p className="text-2xl font-bold text-blue-800">
+          <div className="p-5 bg-deloitte-secondary bg-opacity-10 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-deloitte-secondary border-opacity-20">
+            <p className="text-2xl font-bold text-deloitte-secondary">
               {zoneHeatmap.filter(z => z.status === 'free').length}
             </p>
-            <p className="text-sm text-blue-600">Free Spaces</p>
+            <p className="text-sm text-deloitte-secondary font-semibold">Free Spaces</p>
           </div>
-          <div className="p-4 bg-blue-50 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors">
-            <p className="text-2xl font-bold text-blue-600">
+          <div className="p-5 bg-deloitte-primary bg-opacity-10 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-deloitte-primary border-opacity-20">
+            <p className="text-2xl font-bold text-deloitte-primary">
               {zoneHeatmap.filter(z => z.status === 'assigned').length}
             </p>
-            <p className="text-sm text-blue-500">Assigned</p>
+            <p className="text-sm text-deloitte-primary font-semibold">Assigned</p>
           </div>
-          <div className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
-            <p className="text-2xl font-bold text-gray-700">
+          <div className="p-5 bg-deloitte-gray-100 rounded-xl cursor-pointer hover:bg-deloitte-gray-200 transition-all duration-200 border border-deloitte-gray-300">
+            <p className="text-2xl font-bold text-deloitte-gray-700">
               {zoneHeatmap.filter(z => z.status === 'occupied').length}
             </p>
-            <p className="text-sm text-gray-600">Currently Occupied</p>
+            <p className="text-sm text-deloitte-gray-600 font-semibold">Currently Occupied</p>
           </div>
-          <div className="p-4 bg-yellow-50 rounded-lg cursor-pointer hover:bg-yellow-100 transition-colors">
+          <div className="p-5 bg-yellow-50 rounded-xl cursor-pointer hover:bg-yellow-100 transition-all duration-200 border border-yellow-200">
             <p className="text-2xl font-bold text-yellow-700">
               {zoneHeatmap.filter(z => z.status === 'hotdesk').length}
             </p>
-            <p className="text-sm text-yellow-600">Hot Desks Available</p>
+            <p className="text-sm text-yellow-600 font-semibold">Hot Desks Available</p>
           </div>
         </div>
       </div>

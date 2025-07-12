@@ -165,17 +165,101 @@ class ApiService {
   }
 
   // Authentication
-  async login(credentials: { username: string; password: string; userType: string }) {
-    return this.request('/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    });
+  async login(email: string, password: string, userType: string, companyCode?: string) {
+    // Mock successful login response - ignore backend
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+    
+    const mockUser = {
+      id: '1',
+      name: userType === 'executive' ? 'Sarah Johnson' : 'Michael Chen',
+      email: email,
+      role: userType === 'executive' ? 'Chief Executive Officer' : 'HR Manager',
+      company: 'Deloitte Digital',
+      department: userType === 'executive' ? 'Executive' : 'Human Resources',
+      avatar: `https://images.unsplash.com/photo-${userType === 'executive' ? '1494790108755-2616c5e29c5' : '1507003211169-0a1dd7228f2d'}?w=150&h=150&fit=crop&crop=face`,
+      joinDate: '2022-01-15',
+      location: 'New York, NY',
+      phone: '+1 (555) 123-4567',
+      employeeId: userType === 'executive' ? 'EXE001' : 'HR001',
+      permissions: userType === 'executive' 
+        ? ['full_access', 'executive_dashboard', 'strategic_overview', 'cost_analysis']
+        : ['manage_employees', 'view_analytics', 'space_allocation', 'reports']
+    };
+
+    // Store in localStorage
+    localStorage.setItem('user_data', JSON.stringify(mockUser));
+    localStorage.setItem('user_type', userType);
+    localStorage.setItem('auth_token', 'mock_token_' + Date.now());
+
+    return {
+      success: true,
+      user: mockUser,
+      user_type: userType,
+      token: 'mock_token_' + Date.now()
+    };
   }
 
   async logout() {
-    return this.request('/api/auth/logout', {
-      method: 'POST',
-    });
+    // Clear localStorage
+    localStorage.removeItem('user_data');
+    localStorage.removeItem('user_type');
+    localStorage.removeItem('auth_token');
+    return { success: true };
+  }
+
+  // AI Model Analytics - Space Optimizer AI
+  async getSpaceOptimizerAnalytics() {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    return {
+      model_name: "Space Optimizer AI v2.1",
+      accuracy: 0.87,
+      predictions: {
+        next_week_utilization: 78.5,
+        peak_hours: [9, 14, 16],
+        underutilized_spaces: ['Meeting Room C', 'Quiet Zone 2'],
+        optimization_score: 85.2
+      },
+      clustering_results: {
+        high_activity_collaborative: 12,
+        high_activity_focused: 8,
+        moderate_activity: 15,
+        quiet_underutilized: 6
+      },
+      recommendations: [
+        "Convert Meeting Room C to collaborative workspace",
+        "Implement hot-desking in Quiet Zone 2",
+        "Add noise barriers in high-activity zones",
+        "Optimize HVAC scheduling for peak hours"
+      ]
+    };
+  }
+
+  // AI Model Analytics - Energy Predictor AI
+  async getEnergyPredictorAnalytics() {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    return {
+      model_name: "Energy Predictor AI v1.8",
+      accuracy: 0.91,
+      predictions: {
+        next_day_consumption: 2847.3,
+        weekly_forecast: [2650, 2780, 2890, 2720, 2650, 1890, 1650],
+        cost_prediction: 18420,
+        efficiency_score: 87.3
+      },
+      feature_importance: [
+        { feature: "occupancy_count", importance: 0.35 },
+        { feature: "temperature", importance: 0.28 },
+        { feature: "time_of_day", importance: 0.18 },
+        { feature: "day_of_week", importance: 0.12 },
+        { feature: "hvac_usage", importance: 0.07 }
+      ],
+      optimization_suggestions: [
+        "Shift non-critical operations to off-peak hours (savings: ₹45,000/month)",
+        "Implement smart temperature control (savings: ₹32,000/month)",
+        "Install occupancy sensors (ROI: 14 months)",
+        "Upgrade to LED lighting (savings: ₹28,000/month)"
+      ]
+    };
   }
 }
 

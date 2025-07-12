@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings } from 'lucide-react';
+import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings, Brain, Zap } from 'lucide-react';
 import { apiService } from './services/api';
 import { useDashboardSummary, useOccupancyData, useSpaceData, useEnvironmentalData, useWeeklyTrend, useZoneHeatmap } from './hooks/useAPI';
 import LoginPage from './components/LoginPage';
@@ -10,6 +10,7 @@ import SpacesView from './components/SpacesView';
 import EmployeesView from './components/EmployeesView';
 import ReportsView from './components/ReportsView';
 import EnergyAnalyticsView from './components/EnergyAnalyticsView';
+import AIModelsView from './components/AIModelsView';
 
 interface UserData {
   id: string;
@@ -34,6 +35,8 @@ const SpaceOptimizerDashboard = () => {
   const [selectedTimeRange, setSelectedTimeRange] = useState('today');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [spaceOptimizerData, setSpaceOptimizerData] = useState<any>(null);
+  const [energyPredictorData, setEnergyPredictorData] = useState<any>(null);
 
   // API hooks for real-time data
   const { data: occupancyResponse, refetch: refetchOccupancy } = useOccupancyData(selectedTimeRange);
@@ -49,6 +52,26 @@ const SpaceOptimizerDashboard = () => {
   const environmentalData = environmentalResponse?.data || [];
   const weeklyTrend = weeklyResponse?.data || [];
   const zoneHeatmap = heatmapResponse?.data || [];
+
+  // Fetch AI model analytics
+  useEffect(() => {
+    const fetchAIAnalytics = async () => {
+      try {
+        const [spaceData, energyData] = await Promise.all([
+          apiService.getSpaceOptimizerAnalytics(),
+          apiService.getEnergyPredictorAnalytics()
+        ]);
+        setSpaceOptimizerData(spaceData);
+        setEnergyPredictorData(energyData);
+      } catch (error) {
+        console.error('Failed to fetch AI analytics:', error);
+      }
+    };
+
+    if (user) {
+      fetchAIAnalytics();
+    }
+  }, [user]);
 
   // Check for stored user data on component mount
   useEffect(() => {
@@ -190,6 +213,14 @@ const SpaceOptimizerDashboard = () => {
         );
       case 'energy':
         return <EnergyAnalyticsView userType={userType!} />;
+      case 'ai-models':
+        return (
+          <AIModelsView 
+            spaceOptimizerData={spaceOptimizerData}
+            energyPredictorData={energyPredictorData}
+            userType={userType!}
+          />
+        );
       default:
         return (
           <OverviewView
@@ -205,43 +236,43 @@ const SpaceOptimizerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-deloitte-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <header className="bg-white border-b border-deloitte-gray-200 sticky top-0 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             
             {/* Left side - Logo and Title */}
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 deloitte-gradient rounded-xl flex items-center justify-center shadow-md">
                 <Activity className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Synergy AI</h1>
-                <p className="text-sm text-gray-600">Workspace Intelligence</p>
+                <h1 className="text-xl font-bold text-deloitte-dark">Synergy AI</h1>
+                <p className="text-sm text-deloitte-gray-600 font-medium">Workspace Intelligence</p>
               </div>
             </div>
 
             {/* Center - Search */}
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-deloitte-gray-400" />
                 <input
                   type="text"
                   placeholder="Search spaces, employees, or analytics..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-12 pr-4 py-3 border border-deloitte-gray-300 rounded-xl focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
 
             {/* Right side - Controls */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               
               {/* Time Range Selector */}
               <select
                 value={selectedTimeRange}
                 onChange={(e) => handleTimeRangeChange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2.5 border border-deloitte-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200"
               >
                 <option value="today">Today</option>
                 <option value="week">This Week</option>
@@ -250,38 +281,38 @@ const SpaceOptimizerDashboard = () => {
               </select>
 
               {/* Filter Button */}
-              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              <button className="p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors">
                 <Filter className="w-5 h-5" />
               </button>
 
               {/* Refresh Button */}
               <button 
                 onClick={handleRefresh}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors"
                 title="Refresh Data"
               >
                 <RefreshCw className="w-5 h-5" />
               </button>
 
               {/* Notifications */}
-              <button className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              <button className="relative p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors">
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
               </button>
 
               {/* Profile */}
               <button
                 onClick={() => setIsProfileOpen(true)}
-                className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="flex items-center space-x-3 p-2 hover:bg-deloitte-gray-100 rounded-xl transition-colors"
               >
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className="w-8 h-8 rounded-full"
+                  className="w-9 h-9 rounded-full border-2 border-deloitte-gray-200"
                 />
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                  <p className="text-xs text-gray-600">{user.role}</p>
+                  <p className="text-sm font-semibold text-deloitte-dark">{user.name}</p>
+                  <p className="text-xs text-deloitte-gray-600">{user.role}</p>
                 </div>
               </button>
             </div>
@@ -290,20 +321,29 @@ const SpaceOptimizerDashboard = () => {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white border-b border-deloitte-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex space-x-8">
-            {['overview', 'analytics', 'spaces', 'employees', 'energy', 'reports'].map((tab) => (
+          <div className="flex space-x-1">
+            {[
+              { id: 'overview', label: 'Overview', icon: Activity },
+              { id: 'analytics', label: 'Analytics', icon: null },
+              { id: 'spaces', label: 'Spaces', icon: null },
+              { id: 'employees', label: 'Employees', icon: null },
+              { id: 'energy', label: 'Energy', icon: Zap },
+              { id: 'ai-models', label: 'AI Models', icon: Brain },
+              { id: 'reports', label: 'Reports', icon: null }
+            ].map((tab) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 py-4 px-4 border-b-3 font-semibold text-sm transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'border-deloitte-primary text-deloitte-primary bg-deloitte-primary bg-opacity-5'
+                    : 'border-transparent text-deloitte-gray-500 hover:text-deloitte-dark hover:border-deloitte-gray-300'
                 }`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab.icon && <tab.icon className="w-4 h-4" />}
+                <span>{tab.label}</span>
               </button>
             ))}
           </div>
