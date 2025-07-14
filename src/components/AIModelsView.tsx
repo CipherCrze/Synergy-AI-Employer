@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Brain, Zap, TrendingUp, Target, Activity, BarChart3, PieChart, Settings, RefreshCw, Download, AlertTriangle, CheckCircle, Clock, Lightbulb } from 'lucide-react';
+import { Brain, Zap, TrendingUp, Target, Activity, BarChart3, PieChart, Settings, RefreshCw, Download, AlertTriangle, CheckCircle, Clock, Lightbulb, Users } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell, RadialBarChart, RadialBar } from 'recharts';
 
 interface AIModelsViewProps {
@@ -375,6 +376,68 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({
                 <span className="text-sm font-bold text-deloitte-dark">1 hour ago</span>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Conflict Detection Results */}
+      <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <h3 className="text-lg font-bold text-deloitte-dark mb-6">Space Conflict Detection</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <AlertTriangle className="w-5 h-5 text-red-600" />
+              <span className="font-semibold text-red-900">Double Bookings</span>
+            </div>
+            <p className="text-2xl font-bold text-red-600">3</p>
+            <p className="text-sm text-red-700">Active conflicts detected</p>
+          </div>
+          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <Users className="w-5 h-5 text-yellow-600" />
+              <span className="font-semibold text-yellow-900">Overcrowding</span>
+            </div>
+            <p className="text-2xl font-bold text-yellow-600">2</p>
+            <p className="text-sm text-yellow-700">Capacity exceeded</p>
+          </div>
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <Settings className="w-5 h-5 text-blue-600" />
+              <span className="font-semibold text-blue-900">Equipment Issues</span>
+            </div>
+            <p className="text-2xl font-bold text-blue-600">1</p>
+            <p className="text-sm text-blue-700">Resource conflicts</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Energy Conflict Detection */}
+      <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <h3 className="text-lg font-bold text-deloitte-dark mb-6">Energy Conflict Detection</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <AlertTriangle className="w-5 h-5 text-red-600" />
+              <span className="font-semibold text-red-900">Peak Alerts</span>
+            </div>
+            <p className="text-2xl font-bold text-red-600">2</p>
+            <p className="text-sm text-red-700">Critical consumption</p>
+          </div>
+          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <Zap className="w-5 h-5 text-yellow-600" />
+              <span className="font-semibold text-yellow-900">Inefficiencies</span>
+            </div>
+            <p className="text-2xl font-bold text-yellow-600">3</p>
+            <p className="text-sm text-yellow-700">Optimization needed</p>
+          </div>
+          <div className="p-4 bg-green-50 border border-green-200 rounded-xl">
+            <div className="flex items-center space-x-2 mb-2">
+              <TrendingUp className="w-5 h-5 text-green-600" />
+              <span className="font-semibold text-green-900">Savings</span>
+            </div>
+            <p className="text-2xl font-bold text-green-600">₹58K</p>
+            <p className="text-sm text-green-700">Monthly potential</p>
           </div>
         </div>
       </div>

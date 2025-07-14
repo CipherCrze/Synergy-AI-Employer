@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings, Brain, Zap } from 'lucide-react';
+import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings, Brain, Zap, AlertTriangle } from 'lucide-react';
 import { apiService } from './services/api';
 import { useDashboardSummary, useOccupancyData, useSpaceData, useEnvironmentalData, useWeeklyTrend, useZoneHeatmap } from './hooks/useAPI';
 import LoginPage from './components/LoginPage';
@@ -11,6 +12,7 @@ import EmployeesView from './components/EmployeesView';
 import ReportsView from './components/ReportsView';
 import EnergyAnalyticsView from './components/EnergyAnalyticsView';
 import AIModelsView from './components/AIModelsView';
+import ConflictResolutionView from './components/ConflictResolutionView';
 
 interface UserData {
   id: string;
@@ -221,6 +223,8 @@ const SpaceOptimizerDashboard = () => {
             userType={userType!}
           />
         );
+      case 'conflicts':
+        return <ConflictResolutionView userType={userType!} />;
       default:
         return (
           <OverviewView
@@ -331,6 +335,7 @@ const SpaceOptimizerDashboard = () => {
               { id: 'employees', label: 'Employees', icon: null },
               { id: 'energy', label: 'Energy', icon: Zap },
               { id: 'ai-models', label: 'AI Models', icon: Brain },
+              { id: 'conflicts', label: 'Conflicts', icon: AlertTriangle },
               { id: 'reports', label: 'Reports', icon: null }
             ].map((tab) => (
               <button

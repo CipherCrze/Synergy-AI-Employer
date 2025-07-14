@@ -1,0 +1,398 @@
+import React, { useState } from 'react';
+import { AlertTriangle, CheckCircle, Clock, Users, Zap, Filter, Search, RefreshCw, TrendingDown, MapPin, Calendar, User, Settings } from 'lucide-react';
+import { spaceOptimizerConflicts, energyPredictorConflicts, resolutionHistory } from '../data/mockConflicts';
+
+interface ConflictResolutionViewProps {
+  userType: 'employer' | 'executive';
+}
+
+const ConflictResolutionView: React.FC<ConflictResolutionViewProps> = ({ userType }) => {
+  const [activeTab, setActiveTab] = useState<'space' | 'energy' | 'history'>('space');
+  const [spaceConflicts, setSpaceConflicts] = useState(spaceOptimizerConflicts);
+  const [energyConflicts, setEnergyConflicts] = useState(energyPredictorConflicts);
+  const [severityFilter, setSeverityFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isResolving, setIsResolving] = useState<number | null>(null);
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity.toLowerCase()) {
+      case 'critical': return 'bg-red-100 text-red-800 border-red-200';
+      case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'low': return 'bg-blue-100 text-blue-800 border-blue-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getSeverityIcon = (severity: string) => {
+    switch (severity.toLowerCase()) {
+      case 'critical': return <AlertTriangle className="w-4 h-4 text-red-600" />;
+      case 'high': return <AlertTriangle className="w-4 h-4 text-orange-600" />;
+      case 'medium': return <Clock className="w-4 h-4 text-yellow-600" />;
+      case 'low': return <CheckCircle className="w-4 h-4 text-blue-600" />;
+      default: return <AlertTriangle className="w-4 h-4 text-gray-600" />;
+    }
+  };
+
+  const handleResolveConflict = async (conflictId: number, type: 'space' | 'energy') => {
+    setIsResolving(conflictId);
+    
+    // Simulate resolution process
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    if (type === 'space') {
+      setSpaceConflicts(prev => prev.map(conflict => 
+        conflict.id === conflictId 
+          ? { ...conflict, status: 'resolved' }
+          : conflict
+      ));
+    } else {
+      setEnergyConflicts(prev => prev.map(conflict => 
+        conflict.id === conflictId 
+          ? { ...conflict, status: 'resolved' }
+          : conflict
+      ));
+    }
+    
+    setIsResolving(null);
+  };
+
+  const filterConflicts = (conflicts: any[]) => {
+    return conflicts.filter(conflict => {
+      const matchesSeverity = severityFilter === 'all' || conflict.severity.toLowerCase() === severityFilter;
+      const matchesSearch = searchTerm === '' || 
+        conflict.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        conflict.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        conflict.recommendedAction.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return matchesSeverity && matchesSearch && conflict.status === 'unresolved';
+    });
+  };
+
+  const getUnresolvedCount = (conflicts: any[]) => {
+    return conflicts.filter(c => c.status === 'unresolved').length;
+  };
+
+  const SpaceConflictCard = ({ conflict }: { conflict: any }) => (
+    <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-md transition-all duration-200">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          {getSeverityIcon(conflict.severity)}
+          <div>
+            <h3 className="font-semibold text-gray-900">{conflict.type}</h3>
+            <p className="text-sm text-gray-600">{conflict.location}</p>
+          </div>
+        </div>
+        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getSeverityColor(conflict.severity)}`}>
+          {conflict.severity}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-700 mb-4">{conflict.description}</p>
+
+      <div className="space-y-3 mb-4">
+        <div className="flex items-center space-x-2 text-sm">
+          <Calendar className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Detected: {conflict.timestamp}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm">
+          <Users className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Affected: {conflict.affectedUsers.join(', ')}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm">
+          <Clock className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Est. Resolution: {conflict.estimatedResolutionTime}</span>
+        </div>
+      </div>
+
+      <div className="bg-blue-50 p-4 rounded-lg mb-4">
+        <h4 className="font-medium text-blue-900 mb-2">Recommended Action</h4>
+        <p className="text-sm text-blue-800">{conflict.recommendedAction}</p>
+      </div>
+
+      <button
+        onClick={() => handleResolveConflict(conflict.id, 'space')}
+        disabled={isResolving === conflict.id}
+        className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+      >
+        {isResolving === conflict.id ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span>Resolving...</span>
+          </>
+        ) : (
+          <>
+            <CheckCircle className="w-4 h-4" />
+            <span>Simulate Resolution</span>
+          </>
+        )}
+      </button>
+    </div>
+  );
+
+  const EnergyConflictCard = ({ conflict }: { conflict: any }) => (
+    <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-md transition-all duration-200">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          {getSeverityIcon(conflict.severity)}
+          <div>
+            <h3 className="font-semibold text-gray-900">{conflict.type}</h3>
+            <p className="text-sm text-gray-600">{conflict.time}</p>
+          </div>
+        </div>
+        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getSeverityColor(conflict.severity)}`}>
+          {conflict.severity}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-700 mb-4">{conflict.description}</p>
+
+      <div className="space-y-3 mb-4">
+        <div className="flex items-center space-x-2 text-sm">
+          <MapPin className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Zones: {conflict.affectedZones.join(', ')}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm">
+          <TrendingDown className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Potential Savings: {conflict.estimatedSavings}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm">
+          <Clock className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-600">Est. Resolution: {conflict.estimatedResolutionTime}</span>
+        </div>
+      </div>
+
+      <div className="bg-green-50 p-4 rounded-lg mb-4">
+        <h4 className="font-medium text-green-900 mb-2">Recommended Action</h4>
+        <p className="text-sm text-green-800">{conflict.recommendedAction}</p>
+      </div>
+
+      <button
+        onClick={() => handleResolveConflict(conflict.id, 'energy')}
+        disabled={isResolving === conflict.id}
+        className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+      >
+        {isResolving === conflict.id ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span>Resolving...</span>
+          </>
+        ) : (
+          <>
+            <CheckCircle className="w-4 h-4" />
+            <span>Simulate Resolution</span>
+          </>
+        )}
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">AI Conflict Resolution Center</h2>
+            <p className="text-gray-600">Real-time conflict detection and resolution recommendations</p>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search conflicts..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            
+            <select
+              value={severityFilter}
+              onChange={(e) => setSeverityFilter(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Severities</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+            
+            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              <RefreshCw className="w-4 h-4" />
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Space Conflicts</p>
+              <p className="text-2xl font-bold text-orange-600">{getUnresolvedCount(spaceConflicts)}</p>
+              <p className="text-sm text-gray-500 mt-1">Unresolved issues</p>
+            </div>
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+              <Users className="w-6 h-6 text-orange-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Energy Conflicts</p>
+              <p className="text-2xl font-bold text-red-600">{getUnresolvedCount(energyConflicts)}</p>
+              <p className="text-sm text-gray-500 mt-1">Optimization needed</p>
+            </div>
+            <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+              <Zap className="w-6 h-6 text-red-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Resolved Today</p>
+              <p className="text-2xl font-bold text-green-600">{resolutionHistory.length}</p>
+              <p className="text-sm text-gray-500 mt-1">Successfully handled</p>
+            </div>
+            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+        <div className="flex border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab('space')}
+            className={`flex items-center space-x-2 py-4 px-6 font-medium text-sm transition-colors ${
+              activeTab === 'space'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <Users className="w-4 h-4" />
+            <span>Space Optimizer AI ({getUnresolvedCount(spaceConflicts)})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('energy')}
+            className={`flex items-center space-x-2 py-4 px-6 font-medium text-sm transition-colors ${
+              activeTab === 'energy'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <Zap className="w-4 h-4" />
+            <span>Energy Predictor AI ({getUnresolvedCount(energyConflicts)})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`flex items-center space-x-2 py-4 px-6 font-medium text-sm transition-colors ${
+              activeTab === 'history'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <CheckCircle className="w-4 h-4" />
+            <span>Resolution History</span>
+          </button>
+        </div>
+
+        <div className="p-6">
+          {/* Space Optimizer Conflicts */}
+          {activeTab === 'space' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Space Optimizer AI Conflicts</h3>
+                <div className="text-sm text-gray-600">
+                  {filterConflicts(spaceConflicts).length} conflicts found
+                </div>
+              </div>
+              
+              {filterConflicts(spaceConflicts).length === 0 ? (
+                <div className="text-center py-12">
+                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Conflicts Found</h3>
+                  <p className="text-gray-600">All space-related issues have been resolved or no conflicts match your filters.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {filterConflicts(spaceConflicts).map((conflict) => (
+                    <SpaceConflictCard key={conflict.id} conflict={conflict} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Energy Predictor Conflicts */}
+          {activeTab === 'energy' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Energy Predictor AI Conflicts</h3>
+                <div className="text-sm text-gray-600">
+                  {filterConflicts(energyConflicts).length} conflicts found
+                </div>
+              </div>
+              
+              {filterConflicts(energyConflicts).length === 0 ? (
+                <div className="text-center py-12">
+                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Conflicts Found</h3>
+                  <p className="text-gray-600">All energy-related issues have been resolved or no conflicts match your filters.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {filterConflicts(energyConflicts).map((conflict) => (
+                    <EnergyConflictCard key={conflict.id} conflict={conflict} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Resolution History */}
+          {activeTab === 'history' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold text-gray-900">Resolution History</h3>
+              
+              <div className="space-y-4">
+                {resolutionHistory.map((resolution) => (
+                  <div key={resolution.id} className="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                        <div>
+                          <h4 className="font-medium text-gray-900">{resolution.type}</h4>
+                          <p className="text-sm text-gray-600">Resolved by {resolution.resolvedBy}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-600">{resolution.resolvedAt}</p>
+                        <p className="text-xs text-green-600">Completed in {resolution.timeTaken}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 mt-2 ml-8">{resolution.resolutionAction}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ConflictResolutionView;
