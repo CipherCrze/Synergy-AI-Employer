@@ -135,13 +135,13 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-semibold text-deloitte-gray-600">Overall Utilization</p>
+              <p className="text-sm font-medium text-deloitte-gray-600">Overall Utilization</p>
               <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? 
                   (spaceData.reduce((sum, space) => sum + space.current, 0) / 
                    spaceData.reduce((sum, space) => sum + space.capacity, 0) * 100).toFixed(1) : '0'}%
               </p>
-              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 12% from last week</p>
+              <p className="text-sm text-green-600 font-medium mt-1">↑ 12% from last week</p>
             </div>
             <div className="w-14 h-14 bg-deloitte-primary bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
               <TrendingUp className="w-7 h-7 text-deloitte-primary" />
@@ -165,11 +165,11 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-semibold text-deloitte-gray-600">Active Users</p>
+              <p className="text-sm font-medium text-deloitte-gray-600">Active Users</p>
               <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? spaceData.reduce((sum, space) => sum + space.current, 0) : 0}
               </p>
-              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 8% from yesterday</p>
+              <p className="text-sm text-green-600 font-medium mt-1">↑ 8% from yesterday</p>
             </div>
             <div className="w-14 h-14 bg-deloitte-accent bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
               <Users className="w-7 h-7 text-deloitte-accent" />
@@ -187,9 +187,9 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-semibold text-deloitte-gray-600">Cost Savings</p>
+              <p className="text-sm font-medium text-deloitte-gray-600">Cost Savings</p>
               <p className="text-3xl font-bold text-deloitte-dark">₹2.4L</p>
-              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ ₹45K this month</p>
+              <p className="text-sm text-green-600 font-medium mt-1">↑ ₹45K this month</p>
             </div>
             <div className="w-14 h-14 bg-deloitte-secondary bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
               <Thermometer className="w-7 h-7 text-deloitte-secondary" />
@@ -213,12 +213,12 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer group">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm font-semibold text-deloitte-gray-600">Efficiency Score</p>
+              <p className="text-sm font-medium text-deloitte-gray-600">Efficiency Score</p>
               <p className="text-3xl font-bold text-deloitte-dark">
                 {spaceData.length > 0 ? 
                   (spaceData.reduce((sum, space) => sum + space.efficiency, 0) / spaceData.length).toFixed(0) : '0'}
               </p>
-              <p className="text-sm text-deloitte-accent font-medium mt-1">↑ 5 points</p>
+              <p className="text-sm text-green-600 font-medium mt-1">↑ 5 points</p>
             </div>
             <div className="w-14 h-14 bg-yellow-500 bg-opacity-10 rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-all duration-300">
               <Zap className="w-7 h-7 text-yellow-600" />
@@ -237,7 +237,7 @@ const OverviewView: React.FC<OverviewViewProps> = ({
       {/* Alerts Section */}
       <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-deloitte-dark">Recent Alerts</h3>
+          <h3 className="text-lg font-bold text-deloitte-dark">Recent Alerts</h3>
           <button className="text-sm text-deloitte-primary hover:text-deloitte-accent font-semibold transition-colors">
             View All
           </button>
