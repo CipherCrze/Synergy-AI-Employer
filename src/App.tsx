@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings, Brain, Zap } from 'lucide-react';
-import { Activity, Search, Bell, Filter, Calendar, Download, RefreshCw, User, Settings, Brain, Zap, AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { apiService } from './services/api';
 import { useDashboardSummary, useOccupancyData, useSpaceData, useEnvironmentalData, useWeeklyTrend, useZoneHeatmap } from './hooks/useAPI';
 import LoginPage from './components/LoginPage';
