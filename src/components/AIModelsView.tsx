@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Brain, Zap, TrendingUp, Target, Activity, BarChart3, PieChart, Settings, RefreshCw, Download, AlertTriangle, CheckCircle, Clock, Lightbulb } from 'lucide-react';
 import { Brain, Zap, TrendingUp, Target, Activity, BarChart3, PieChart, Settings, RefreshCw, Download, AlertTriangle, CheckCircle, Clock, Lightbulb, Users } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell, RadialBarChart, RadialBar } from 'recharts';
 
