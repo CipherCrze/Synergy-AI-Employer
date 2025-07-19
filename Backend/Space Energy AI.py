@@ -8,15 +8,22 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, silhouette_score
 import warnings
 warnings.filterwarnings('ignore')
+import matplotlib.pyplot as plt
+import seaborn as sns
+import base64
+from io import BytesIO
+from firebase_service import fetch_occupancy_data, fetch_booking_data, fetch_sensor_data, write_occupancy_data
+from sklearn.ensemble import IsolationForest
 
 class SpaceOptimizerAI:
     def __init__(self):
         self.scaler_features = MinMaxScaler()
         self.scaler_target = MinMaxScaler()
         self.kmeans_model = KMeans(n_clusters=4, random_state=42)
-        self.lstm_model = None
         self.rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
         self.feature_columns = []
+        self.isolation_forest = IsolationForest(contamination=0.05, random_state=42)
+        self.best_params = None
 
     def generate_enhanced_mock_data(self, days=90):
         """Generate comprehensive mock data following the guide's data collection points"""
@@ -135,6 +142,35 @@ class SpaceOptimizerAI:
 
         return desk_df, emp_df, room_df
 
+    def fetch_data_from_firebase(self):
+        """Fetch occupancy, booking, and sensor data from Firebase."""
+        occupancy = fetch_occupancy_data()
+        bookings = fetch_booking_data()
+        sensors = fetch_sensor_data()
+        return occupancy, bookings, sensors
+
+    def retrain_from_firebase(self):
+        """Retrain the model using the latest data from Firebase."""
+        occupancy, bookings, sensors = self.fetch_data_from_firebase()
+        # Convert to DataFrame and merge as needed (user should adapt this to their schema)
+        occ_df = pd.DataFrame(occupancy.values()) if isinstance(occupancy, dict) else pd.DataFrame(occupancy)
+        book_df = pd.DataFrame(bookings.values()) if isinstance(bookings, dict) else pd.DataFrame(bookings)
+        sens_df = pd.DataFrame(sensors.values()) if isinstance(sensors, dict) else pd.DataFrame(sensors)
+        # Example: Use occ_df for training
+        if not occ_df.empty:
+            features_df = self.feature_engineering_from_firebase(occ_df, book_df, sens_df)
+            self.train_occupancy_predictor(features_df)
+
+    def feature_engineering_from_firebase(self, occ_df, book_df, sens_df):
+        """Feature engineering using Firebase data (customize as needed)."""
+        # Example: Merge on timestamp/date
+        occ_df['date'] = pd.to_datetime(occ_df['date'])
+        sens_df['date'] = pd.to_datetime(sens_df['date'])
+        merged = pd.merge(occ_df, sens_df, on='date', how='left')
+        # Add more features as needed
+        merged = merged.fillna(0)
+        return merged
+
     def feature_engineering(self, desk_df, emp_df, room_df):
         """Create advanced features for better prediction accuracy"""
 
@@ -241,32 +277,21 @@ class SpaceOptimizerAI:
         return desk_features, cluster_summary, cluster_labels
 
     def train_occupancy_predictor(self, features_df, target_col='usage_hours_mean'):
-        """Train Random Forest model for occupancy prediction"""
-
-        # Prepare data
+        """Train Random Forest with hyperparameter tuning and anomaly removal."""
+        # Remove anomalies
+        if features_df.shape[0] > 10:
+            anomalies = self.isolation_forest.fit_predict(features_df.select_dtypes(include=[np.number]))
+            features_df = features_df[anomalies == 1]
         self.feature_columns = features_df.columns.drop(target_col).tolist()
         X = features_df[self.feature_columns].values
         y = features_df[target_col].values
-
-        # Scale data
-        X_scaled = self.scaler_features.fit_transform(X)
-        y_scaled = self.scaler_target.fit_transform(y.reshape(-1, 1)).flatten()
-
-        # Train-test split
-        X_train, X_test, y_train, y_test = train_test_split(
-            X_scaled, y_scaled, test_size=0.2, random_state=42, shuffle=False
-        )
-
-        # Train Random Forest Model
-        self.rf_model.fit(X_train, y_train)
-        rf_pred = self.rf_model.predict(X_test)
-        rf_mae = mean_absolute_error(y_test, rf_pred)
-        print(f"Random Forest MAE: {rf_mae:.4f}")
-
-        return {
-            'rf_mae': rf_mae,
-            'feature_importance': dict(zip(self.feature_columns, self.rf_model.feature_importances_))
-        }
+        # Hyperparameter tuning
+        param_grid = {'n_estimators': [50, 100, 200], 'max_depth': [5, 10, None]}
+        grid = GridSearchCV(self.rf_model, param_grid, cv=3, scoring='neg_mean_absolute_error')
+        grid.fit(X, y)
+        self.rf_model = grid.best_estimator_
+        self.best_params = grid.best_params_
+        print(f"Best RF params: {self.best_params}")
 
     def predict_future_demand(self, features_df, days_ahead=7):
         """Predict future space demand"""
@@ -284,6 +309,10 @@ class SpaceOptimizerAI:
             'ensemble_prediction': rf_pred,  # Using RF as primary model
             'prediction_date': features_df.index[-1] + timedelta(days=1)
         }
+
+    def predict(self, features_df):
+        X = features_df[self.feature_columns].values
+        return self.rf_model.predict(X)
 
     def generate_optimization_insights(self, desk_clusters, features_df, predictions):
         """Generate actionable insights for space optimization"""
@@ -315,3 +344,30 @@ class SpaceOptimizerAI:
             insights['recommendations'].append("Consider extending working hours or flexible schedules")
 
         return insights
+
+    def plot_feature_importance(self):
+        """Return a base64-encoded PNG of feature importances."""
+        importances = self.rf_model.feature_importances_
+        indices = np.argsort(importances)[::-1]
+        plt.figure(figsize=(8, 4))
+        plt.title('Feature Importances')
+        plt.bar(range(len(importances)), importances[indices], align='center')
+        plt.xticks(range(len(importances)), [self.feature_columns[i] for i in indices], rotation=45, ha='right')
+        plt.tight_layout()
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        plt.close()
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode('utf-8')
+
+    def plot_clusters(self, desk_features):
+        """Return a base64-encoded PNG of desk clusters."""
+        plt.figure(figsize=(6, 4))
+        sns.scatterplot(x='usage_hours_mean', y='noise_level_mean', hue='cluster_label', data=desk_features)
+        plt.title('Desk Clusters')
+        plt.tight_layout()
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        plt.close()
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode('utf-8')

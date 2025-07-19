@@ -8,20 +8,21 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
+import matplotlib.pyplot as plt
+import seaborn as sns
+import base64
+from io import BytesIO
+from firebase_service import fetch_energy_data, write_energy_data
+from sklearn.ensemble import IsolationForest
+from sklearn.model_selection import GridSearchCV, TimeSeriesSplit
 
 class EnergyPredictorAI:
     """
     Energy Predictor AI for Synergy AI System
     Predicts energy consumption based on historical data and environmental factors
+    Now supports direct Firebase integration, improved accuracy, and visualization.
     """
-
     def __init__(self, model_type='random_forest'):
-        """
-        Initialize the Energy Predictor AI
-
-        Args:
-            model_type (str): Type of model to use ('random_forest', 'gradient_boost', 'linear')
-        """
         self.model_type = model_type
         self.model = None
         self.scaler = StandardScaler()
@@ -29,8 +30,8 @@ class EnergyPredictorAI:
         self.feature_columns = []
         self.is_trained = False
         self.feature_importance = None
-
-        # Initialize model based on type
+        self.isolation_forest = IsolationForest(contamination=0.05, random_state=42)
+        self.best_params = None
         if model_type == 'random_forest':
             self.model = RandomForestRegressor(n_estimators=100, random_state=42)
         elif model_type == 'gradient_boost':
@@ -152,6 +153,17 @@ class EnergyPredictorAI:
         print(f"Generated {len(df)} samples of mock energy data")
         return df
 
+    def fetch_data_from_firebase(self):
+        """Fetch energy readings from Firebase."""
+        energy = fetch_energy_data()
+        return pd.DataFrame(energy.values()) if isinstance(energy, dict) else pd.DataFrame(energy)
+
+    def retrain_from_firebase(self, target_column='energy_consumption'):
+        """Retrain the model using the latest data from Firebase."""
+        df = self.fetch_data_from_firebase()
+        if not df.empty:
+            self.train(df, target_column=target_column)
+
     def preprocess_data(self, df, target_column='energy_consumption'):
         """
         Preprocess the data for training/prediction
@@ -214,73 +226,25 @@ class EnergyPredictorAI:
         return X_scaled, y
 
     def train(self, df, target_column='energy_consumption', test_size=0.2):
-        """
-        Train the energy prediction model
-
-        Args:
-            df (pd.DataFrame): Training dataset
-            target_column (str): Target variable name
-            test_size (float): Proportion of data for testing
-
-        Returns:
-            dict: Training results and metrics
-        """
+        """Train the energy prediction model with hyperparameter tuning, anomaly removal, and time series CV."""
         print("Training Energy Predictor AI...")
-
-        # Preprocess data
         X, y = self.preprocess_data(df, target_column)
-
-        # Split data (use time series split for temporal data)
-        if 'timestamp' in df.columns:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, shuffle=False)
+        # Remove anomalies
+        if X.shape[0] > 10:
+            anomalies = self.isolation_forest.fit_predict(X)
+            X, y = X[anomalies == 1], y[anomalies == 1]
+        # Time series split
+        tscv = TimeSeriesSplit(n_splits=3)
+        param_grid = {'n_estimators': [50, 100, 200], 'max_depth': [5, 10, None]}
+        if self.model_type == 'random_forest':
+            grid = GridSearchCV(self.model, param_grid, cv=tscv, scoring='neg_mean_absolute_error')
+            grid.fit(X, y)
+            self.model = grid.best_estimator_
+            self.best_params = grid.best_params_
+            print(f"Best RF params: {self.best_params}")
         else:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
-
-        # Train model
-        self.model.fit(X_train, y_train)
-
-        # Make predictions
-        y_train_pred = self.model.predict(X_train)
-        y_test_pred = self.model.predict(X_test)
-
-        # Calculate metrics
-        train_metrics = {
-            'rmse': np.sqrt(mean_squared_error(y_train, y_train_pred)),
-            'mae': mean_absolute_error(y_train, y_train_pred),
-            'r2': r2_score(y_train, y_train_pred)
-        }
-
-        test_metrics = {
-            'rmse': np.sqrt(mean_squared_error(y_test, y_test_pred)),
-            'mae': mean_absolute_error(y_test, y_test_pred),
-            'r2': r2_score(y_test, y_test_pred)
-        }
-
-        # Feature importance
-        if hasattr(self.model, 'feature_importances_'):
-            self.feature_importance = pd.DataFrame({
-                'feature': self.feature_columns,
-                'importance': self.model.feature_importances_
-            }).sort_values('importance', ascending=False)
-
+            self.model.fit(X, y)
         self.is_trained = True
-
-        results = {
-            'train_metrics': train_metrics,
-            'test_metrics': test_metrics,
-            'feature_importance': self.feature_importance,
-            'predictions': {
-                'y_test': y_test.values,
-                'y_test_pred': y_test_pred
-            }
-        }
-
-        print(f"Model trained successfully!")
-        print(f"Test RMSE: {test_metrics['rmse']:.2f}")
-        print(f"Test MAE: {test_metrics['mae']:.2f}")
-        print(f"Test R²: {test_metrics['r2']:.3f}")
-
-        return results
 
     def predict(self, df):
         """
@@ -470,6 +434,39 @@ class EnergyPredictorAI:
              print("Warning: Current costs not provided. Cannot calculate cost savings potential.")
 
         return solutions
+
+    def plot_feature_importance(self):
+        """Return a base64-encoded PNG of feature importances."""
+        if hasattr(self.model, 'feature_importances_'):
+            importances = self.model.feature_importances_
+            indices = np.argsort(importances)[::-1]
+            plt.figure(figsize=(8, 4))
+            plt.title('Feature Importances')
+            plt.bar(range(len(importances)), importances[indices], align='center')
+            plt.xticks(range(len(importances)), [self.feature_columns[i] for i in indices], rotation=45, ha='right')
+            plt.tight_layout()
+            buf = BytesIO()
+            plt.savefig(buf, format='png')
+            plt.close()
+            buf.seek(0)
+            return base64.b64encode(buf.read()).decode('utf-8')
+        return None
+
+    def plot_prediction_vs_actual(self, df, target_column='energy_consumption'):
+        """Return a base64-encoded PNG of prediction vs. actual."""
+        X, y = self.preprocess_data(df, target_column)
+        y_pred = self.model.predict(X)
+        plt.figure(figsize=(8, 4))
+        plt.plot(y, label='Actual')
+        plt.plot(y_pred, label='Predicted')
+        plt.title('Prediction vs. Actual')
+        plt.legend()
+        plt.tight_layout()
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        plt.close()
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode('utf-8')
 
 # Global instance for the API
 energy_predictor = EnergyPredictorAI()
