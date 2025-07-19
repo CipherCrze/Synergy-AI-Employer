@@ -209,45 +209,89 @@ class ApiService {
 
   // AI Model Analytics - Space Optimizer AI
   async getSpaceOptimizerAnalytics() {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return {
-      model_name: "Space Optimizer AI v2.1",
-      accuracy: 0.87,
-      predictions: {
-        next_week_utilization: 78.5,
-        peak_hours: [9, 14, 16],
-        underutilized_spaces: ['Meeting Room C', 'Quiet Zone 2'],
-        optimization_score: 85.2
-      },
-      clustering_results: {
-        high_activity_collaborative: 12,
-        high_activity_focused: 8,
-        moderate_activity: 15,
-        quiet_underutilized: 6
-      },
-      recommendations: [
-        "Convert Meeting Room C to collaborative workspace",
-        "Implement hot-desking in Quiet Zone 2",
-        "Add noise barriers in high-activity zones",
-        "Optimize HVAC scheduling for peak hours"
-      ]
-    };
+    // Import the AI store to get real-time data
+    const { useAIStore } = await import('./aiStore');
+    const analytics = useAIStore.getState().getSpaceOptimizerAnalytics();
+    return analytics;
   }
 
   // AI Model Analytics - Energy Predictor AI
   async getEnergyPredictorAnalytics() {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Import the AI store to get real-time data
+    const { useAIStore } = await import('./aiStore');
+    const analytics = useAIStore.getState().getEnergyPredictorAnalytics();
+    return analytics;
+  }
+
+  // AI Model Analytics - Conflict Resolution
+  async getConflictResolutionAnalytics() {
+    // Import the AI store to get real-time data
+    const { useAIStore } = await import('./aiStore');
+    const analytics = useAIStore.getState().getConflictAnalytics();
+    return analytics;
+  }
+
+  // Real-time AI data
+  async getRealTimeAIData() {
+    // Import the AI store to get real-time data
+    const { useAIStore } = await import('./aiStore');
+    const state = useAIStore.getState();
+    
     return {
-      model_name: "Energy Predictor AI v1.8",
-      accuracy: 0.91,
-      predictions: {
-        next_day_consumption: 2847.3,
-        weekly_forecast: [2650, 2780, 2890, 2720, 2650, 1890, 1650],
-        cost_prediction: 18420,
-        efficiency_score: 87.3
+      spaceOptimizer: {
+        allocations: state.spaceAllocations,
+        recommendations: state.spaceRecommendations,
+        metrics: state.spaceOptimizationMetrics
       },
-      feature_importance: [
-        { feature: "occupancy_count", importance: 0.35 },
+      energyPredictor: {
+        predictions: state.energyPredictions,
+        anomalies: state.energyAnomalies,
+        optimizations: state.energyOptimizations,
+        metrics: state.energyMetrics,
+        accuracy: state.predictionAccuracy
+      },
+      conflictResolution: {
+        activeConflicts: state.activeConflicts,
+        resolvedConflicts: state.resolvedConflicts,
+        actions: state.resolutionActions,
+        summary: state.conflictSummary
+      },
+      lastUpdated: state.lastUpdated,
+      isLoading: state.isLoading,
+      error: state.error
+    };
+  }
+
+  // AI Model Management
+  async initializeAI() {
+    const { useAIStore } = await import('./aiStore');
+    await useAIStore.getState().initializeAI();
+    return { success: true };
+  }
+
+  async refreshAIData() {
+    const { useAIStore } = await import('./aiStore');
+    await useAIStore.getState().refreshData();
+    return { success: true };
+  }
+
+  async resolveConflict(conflictId: string, resolution: string) {
+    const { useAIStore } = await import('./aiStore');
+    await useAIStore.getState().resolveConflict(conflictId, resolution);
+    return { success: true };
+  }
+
+  async addBooking(booking: any) {
+    const { useAIStore } = await import('./aiStore');
+    const bookingId = await useAIStore.getState().addBooking(booking);
+    return { success: true, bookingId };
+  }
+
+  async addEnergyReading(reading: any) {
+    const { useAIStore } = await import('./aiStore');
+    const readingId = await useAIStore.getState().addEnergyReading(reading);
+    return { success: true, readingId };
+  }
         { feature: "temperature", importance: 0.28 },
         { feature: "time_of_day", importance: 0.18 },
         { feature: "day_of_week", importance: 0.12 },

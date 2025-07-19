@@ -14,6 +14,9 @@ import EnergyAnalyticsView from './components/EnergyAnalyticsView';
 import AIModelsView from './components/AIModelsView';
 import ConflictResolutionView from './components/ConflictResolutionView';
 
+// Import AI demo for development
+import './demo/aiDemo';
+
 interface UserData {
   id: string;
   name: string;
