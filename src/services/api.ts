@@ -1,5 +1,5 @@
 // API Service for Synergy AI Dashboard
-const API_BASE_URL = 'http://localhost:8000'; // Adjust based on your backend URL
+const API_BASE_URL = 'http://localhost:5000'; // Flask backend URL
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -34,27 +34,27 @@ class ApiService {
 
   // Occupancy Data
   async getOccupancyData(timeRange: string = 'today') {
-    return this.request(`/api/occupancy?timeRange=${timeRange}`);
+    return this.request(`/api/data/occupancy?time_range=${timeRange}`);
   }
 
   // Space Data
   async getSpaceData() {
-    return this.request('/api/spaces');
+    return this.request('/api/data/spaces');
   }
 
   // Environmental Data
   async getEnvironmentalData() {
-    return this.request('/api/environmental');
+    return this.request('/api/data/environmental');
   }
 
   // Weekly Trend
   async getWeeklyTrend() {
-    return this.request('/api/trends/weekly');
+    return this.request('/api/data/weekly-trend');
   }
 
   // Zone Heatmap
   async getZoneHeatmap() {
-    return this.request('/api/zones/heatmap');
+    return this.request('/api/data/zone-heatmap');
   }
 
   // Employees
@@ -111,12 +111,12 @@ class ApiService {
 
   // Predictions
   async getPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
-    return this.request(`/api/predictions?metricType=${metricType}&forecastDays=${forecastDays}`);
+    return this.request(`/api/analytics/predictions?metric_type=${metricType}&forecast_days=${forecastDays}`);
   }
 
   // Dashboard Predictions
   async getDashboardPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
-    return this.request(`/api/dashboard/predictions?metricType=${metricType}&forecastDays=${forecastDays}`);
+    return this.request(`/api/dashboard/predictions?metric_type=${metricType}&forecast_days=${forecastDays}`);
   }
 
   // Dashboard Optimization
@@ -148,7 +148,7 @@ class ApiService {
     });
     
     const queryString = queryParams.toString();
-    return this.request(`/api/optimization/suggestions${queryString ? `?${queryString}` : ''}`);
+    return this.request(`/api/analytics/optimization${queryString ? `?${queryString}` : ''}`);
   }
 
   // Energy Analytics
@@ -292,18 +292,13 @@ class ApiService {
     const readingId = await useAIStore.getState().addEnergyReading(reading);
     return { success: true, readingId };
   }
-        { feature: "temperature", importance: 0.28 },
-        { feature: "time_of_day", importance: 0.18 },
-        { feature: "day_of_week", importance: 0.12 },
-        { feature: "hvac_usage", importance: 0.07 }
-      ],
-      optimization_suggestions: [
-        "Shift non-critical operations to off-peak hours (savings: ₹45,000/month)",
-        "Implement smart temperature control (savings: ₹32,000/month)",
-        "Install occupancy sensors (ROI: 14 months)",
-        "Upgrade to LED lighting (savings: ₹28,000/month)"
-      ]
-    };
+
+  // Add Space method
+  async addSpace(spaceData: any) {
+    return this.request('/api/spaces/add', {
+      method: 'POST',
+      body: JSON.stringify(spaceData),
+    });
   }
 }
 

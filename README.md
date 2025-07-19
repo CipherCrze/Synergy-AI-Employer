@@ -40,10 +40,12 @@ src/
 │   └── api.ts                    # API service layer
 ```
 
-### Backend (Python + FastAPI)
+### Backend (Python + Flask)
 ```
 Backend/
-├── main.py                       # FastAPI server with AI endpoints
+├── app.py                        # Flask server with AI endpoints
+├── start_server.py               # Server startup script
+├── requirements.txt              # Python dependencies
 ├── energy_predictor.py           # Energy prediction model
 ├── Space Energy AI.py            # Space optimization model
 └── Dashboard API.py              # Dashboard API endpoints
@@ -71,10 +73,10 @@ npm run dev
 cd Backend
 
 # Install Python dependencies
-pip install fastapi uvicorn pandas numpy scikit-learn firebase-admin
+pip install -r requirements.txt
 
-# Start FastAPI server
-python main.py
+# Start Flask server
+python start_server.py
 ```
 
 ### Firebase Configuration
@@ -264,7 +266,8 @@ await aiStore.resolveConflict(conflictId, resolution);
 
 3. **Backend Deployment**:
    ```bash
-   # Deploy FastAPI to cloud platform (AWS, GCP, Azure)
+   # Deploy Flask to cloud platform (AWS, GCP, Azure)
+   # Or use the provided start_server.py for production
    ```
 
 ## 🤝 Contributing
