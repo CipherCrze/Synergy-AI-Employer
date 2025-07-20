@@ -62,12 +62,12 @@ const SpaceOptimizerDashboard = () => {
   useEffect(() => {
     const fetchAIAnalytics = async () => {
       try {
-        const [spaceData, energyData] = await Promise.all([
-          apiService.getSpaceOptimizerAnalytics(),
-          apiService.getEnergyPredictorAnalytics()
+        const [aiPredictions, optimizationAnalytics] = await Promise.all([
+          apiService.getAIPredictions(),
+          apiService.getOptimizationAnalytics()
         ]);
-        setSpaceOptimizerData(spaceData);
-        setEnergyPredictorData(energyData);
+        setSpaceOptimizerData(aiPredictions.space_optimizer || null);
+        setEnergyPredictorData(aiPredictions.energy_predictor || null);
       } catch (error) {
         console.error('Failed to fetch AI analytics:', error);
       }
