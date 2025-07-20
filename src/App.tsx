@@ -111,17 +111,22 @@ const SpaceOptimizerDashboard = () => {
     setError(null);
     
     try {
-      const response = await apiService.login(email, password, type, companyCode);
+      const response = await apiService.login(email, password);
       
-      if (response.success) {
+      if (response.access_token && response.user) {
         setUser(response.user);
-        setUserType(response.user_type as 'employer' | 'executive');
+        setUserType('employer'); // Default to employer for now
+        
+        // Store user data
+        localStorage.setItem('user_data', JSON.stringify(response.user));
+        localStorage.setItem('user_type', 'employer');
+        localStorage.setItem('auth_token', response.access_token);
       } else {
         setError('Login failed. Please check your credentials.');
       }
-    } catch (error) {
-      setError('Login failed. Please try again.');
+    } catch (error: any) {
       console.error('Login error:', error);
+      setError(error.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
