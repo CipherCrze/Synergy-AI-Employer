@@ -38,20 +38,9 @@ class FirebaseService:
         Initialize Firebase Admin SDK
         """
         try:
-            # Check if Firebase is already initialized
-            if not firebase_admin._apps:
-                # For demo purposes, we'll use anonymous authentication
-                # In production, use proper service account credentials
-                firebase_admin.initialize_app(options={
-                    'databaseURL': self.database_url
-                })
-            
-            self.db = db
-            self.is_connected = True
-            logger.info("Firebase initialized successfully")
-            
-            # Initialize database structure
-            self._initialize_database_structure()
+            # For demo/development, skip actual Firebase and use mock database
+            logger.info("Using mock database for development")
+            self._initialize_mock_database()
             
         except Exception as e:
             logger.error(f"Failed to initialize Firebase: {e}")
