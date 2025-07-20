@@ -653,20 +653,14 @@ def invalid_token_callback(error):
 def missing_token_callback(error):
     return jsonify({'error': 'Authorization token required'}), 401
 
-# Initialize AI models on startup
-@app.before_first_request
-def startup():
-    """
-    Initialize services on first request
-    """
-    logger.info("Starting Synergy AI Flask API...")
-    initialize_ai_models()
-    logger.info("Synergy AI Flask API started successfully")
-
 if __name__ == '__main__':
     # Initialize immediately for development
     logger.info("Initializing Synergy AI Flask API...")
-    initialize_ai_models()
+    
+    # Initialize AI models in a separate thread to avoid blocking
+    threading.Thread(target=initialize_ai_models, daemon=True).start()
+    
+    logger.info("Synergy AI Flask API started successfully")
     
     # Run the application
     app.run(
