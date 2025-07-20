@@ -11,8 +11,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, isLoading = false, error
   const [loginType, setLoginType] = useState<'employer' | 'executive'>('employer');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: 'admin@demo.com',
+    password: 'password',
     companyCode: ''
   });
   const [formError, setFormError] = useState<string | null>(null);
