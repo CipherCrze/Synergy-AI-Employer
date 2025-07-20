@@ -27,11 +27,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, isLoading = false, error
       return;
     }
 
-    if (loginType === 'employer' && !formData.companyCode) {
-      setFormError('Company code is required for employer login');
-      return;
-    }
-
     try {
       await onLogin(
         loginType,
