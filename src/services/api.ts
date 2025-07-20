@@ -1,13 +1,47 @@
 // API Service for Synergy AI Dashboard
-const API_BASE_URL = 'http://localhost:8000'; // Adjust based on your backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001/api';
+
+interface AuthTokens {
+  access_token: string;
+  user: any;
+}
 
 class ApiService {
+  private authToken: string | null = null;
+
+  constructor() {
+    // Load auth token from localStorage
+    this.authToken = localStorage.getItem('auth_token');
+  }
+
+  setAuthToken(token: string) {
+    this.authToken = token;
+    localStorage.setItem('auth_token', token);
+  }
+
+  clearAuthToken() {
+    this.authToken = null;
+    localStorage.removeItem('auth_token');
+  }
+
+  private getAuthHeaders(): HeadersInit {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (this.authToken) {
+      headers['Authorization'] = `Bearer ${this.authToken}`;
+    }
+    
+    return headers;
+  }
+
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
     const config: RequestInit = {
       headers: {
-        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
         ...options.headers,
       },
       ...options,
@@ -17,6 +51,11 @@ class ApiService {
       const response = await fetch(url, config);
       
       if (!response.ok) {
+        if (response.status === 401) {
+          // Clear auth token if unauthorized
+          this.clearAuthToken();
+          throw new Error('Authentication required');
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
@@ -27,24 +66,46 @@ class ApiService {
     }
   }
 
-  // Dashboard Summary
+  // Authentication
+  async login(email: string, password: string): Promise<AuthTokens> {
+    const response = await this.request<AuthTokens>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, user_type: 'admin' }),
+    });
+    
+    if (response.access_token) {
+      this.setAuthToken(response.access_token);
+    }
+    
+    return response;
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.request('/auth/logout', { method: 'POST' });
+    } finally {
+      this.clearAuthToken();
+    }
+  }
+
+  // Dashboard Summary  
   async getDashboardSummary() {
-    return this.request('/api/dashboard/summary');
+    return this.request('/dashboard/summary');
   }
 
   // Occupancy Data
   async getOccupancyData(timeRange: string = 'today') {
-    return this.request(`/api/occupancy?timeRange=${timeRange}`);
+    return this.request(`/data/occupancy?hours=24`);
   }
 
   // Space Data
   async getSpaceData() {
-    return this.request('/api/spaces');
+    return this.request('/data/spaces');
   }
 
   // Environmental Data
   async getEnvironmentalData() {
-    return this.request('/api/environmental');
+    return this.request('/data/environmental');
   }
 
   // Weekly Trend
