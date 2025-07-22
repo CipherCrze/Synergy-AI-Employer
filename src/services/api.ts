@@ -161,6 +161,111 @@ class ApiService {
   async getHealthCheck() {
     return this.request('/health');
   }
+
+  // Additional API methods for hooks
+  async getEmployees(params: {
+    search?: string;
+    department?: string;
+    status?: string;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    if (params.search) queryParams.append('search', params.search);
+    if (params.department) queryParams.append('department', params.department);
+    if (params.status) queryParams.append('status', params.status);
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+    
+    const url = `/employees${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    return this.request(url);
+  }
+
+  async getDetailedSpaces(params: {
+    search?: string;
+    status_filter?: string;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    if (params.search) queryParams.append('search', params.search);
+    if (params.status_filter) queryParams.append('status_filter', params.status_filter);
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+    
+    const url = `/spaces/detailed${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    return this.request(url);
+  }
+
+  async getAlerts(params: {
+    severity?: string;
+    resolved?: boolean;
+    limit?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    if (params.severity) queryParams.append('severity', params.severity);
+    if (params.resolved !== undefined) queryParams.append('resolved', params.resolved.toString());
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+    
+    const url = `/conflicts${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    return this.request(url);
+  }
+
+  async getPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
+    return this.request(`/analytics/predictions?metric=${metricType}&days=${forecastDays}`);
+  }
+
+  async getDashboardPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
+    return this.request(`/analytics/predictions?metric=${metricType}&days=${forecastDays}`);
+  }
+
+  async getDashboardOptimization(params: {
+    category?: string;
+    priority?: number;
+  } = {}) {
+    const queryParams = new URLSearchParams();
+    if (params.category) queryParams.append('category', params.category);
+    if (params.priority) queryParams.append('priority', params.priority.toString());
+    
+    const url = `/analytics/optimization${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    return this.request(url);
+  }
+
+  async getOptimizationSuggestions(params: {
+    category?: string;
+    priority?: number;
+  } = {}) {
+    return this.getDashboardOptimization(params);
+  }
+
+  async exportReport(reportType: string, timeRange: string = 'week', format: string = 'pdf') {
+    return this.request(`/reports/export/${reportType}?time_range=${timeRange}&format=${format}`);
+  }
+
+  // Employee management methods
+  async addEmployee(employeeData: any) {
+    return this.request('/employees/add', {
+      method: 'POST',
+      body: JSON.stringify(employeeData),
+    });
+  }
+
+  async updateEmployee(employeeId: number, employeeData: any) {
+    return this.request(`/employees/${employeeId}`, {
+      method: 'PUT',
+      body: JSON.stringify(employeeData),
+    });
+  }
+
+  async deleteEmployee(employeeId: number) {
+    return this.request(`/employees/${employeeId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Space management methods  
+  async addSpace(spaceData: any) {
+    return this.request('/spaces/add', {
+      method: 'POST',
+      body: JSON.stringify(spaceData),
+    });
+  }
 }
 
 // Export singleton instance
