@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -49,6 +50,37 @@ export default {
             700: '#005E85',
             800: '#005174',
             900: '#004562'
+          },
+          // Dark mode specific colors
+          dark: {
+            bg: {
+              primary: '#0F1419',
+              secondary: '#1A1F2E',
+              tertiary: '#252A3A',
+              card: '#1E2332',
+              sidebar: '#161B2A',
+              header: '#1A1F2E',
+              modal: '#252A3A',
+              overlay: 'rgba(15, 20, 25, 0.8)',
+            },
+            text: {
+              primary: '#FFFFFF',
+              secondary: '#E2E8F0',
+              tertiary: '#94A3B8',
+              muted: '#64748B',
+              inverse: '#0F1419',
+            },
+            border: {
+              primary: '#334155',
+              secondary: '#475569',
+              accent: '#86BC25',
+            },
+            surface: {
+              primary: '#1E2332',
+              secondary: '#252A3A',
+              accent: '#2D3748',
+              hover: '#334155',
+            }
           }
         }
       },
@@ -90,6 +122,10 @@ export default {
         'deloitte-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'deloitte-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'deloitte-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        // Dark mode shadows
+        'dark': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
+        'dark-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)',
+        'dark-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

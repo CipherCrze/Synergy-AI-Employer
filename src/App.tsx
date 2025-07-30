@@ -13,6 +13,7 @@ import ReportsView from './components/ReportsView';
 import EnergyAnalyticsView from './components/EnergyAnalyticsView';
 import AIModelsView from './components/AIModelsView';
 import ConflictResolutionView from './components/ConflictResolutionView';
+import DarkModeToggle from './components/DarkModeToggle';
 
 // Import AI demo for development
 import './demo/aiDemo';
@@ -248,9 +249,9 @@ const SpaceOptimizerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-deloitte-gray-50">
+    <div className="min-h-screen bg-deloitte-gray-50 dark:bg-deloitte-dark-bg-primary transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white border-b border-deloitte-gray-200 sticky top-0 z-30 shadow-sm">
+      <header className="bg-white dark:bg-deloitte-dark-bg-header border-b border-deloitte-gray-200 dark:border-deloitte-dark-border-primary sticky top-0 z-30 shadow-sm dark:shadow-dark transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             
@@ -260,31 +261,34 @@ const SpaceOptimizerDashboard = () => {
                 <Activity className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-deloitte-dark">Synergy AI</h1>
-                <p className="text-sm text-deloitte-gray-600 font-medium">Workspace Intelligence</p>
+                <h1 className="text-xl font-bold text-deloitte-dark dark:text-deloitte-dark-text-primary">Synergy AI</h1>
+                <p className="text-sm text-deloitte-gray-600 dark:text-deloitte-dark-text-tertiary font-medium">Workspace Intelligence</p>
               </div>
             </div>
 
             {/* Center - Search */}
-            <div className="flex-1 max-w-md mx-8">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-deloitte-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search spaces, employees, or analytics..."
-                  className="w-full pl-12 pr-4 py-3 border border-deloitte-gray-300 rounded-xl focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200"
-                />
+                          <div className="flex-1 max-w-md mx-8">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-deloitte-gray-400 dark:text-deloitte-dark-text-muted" />
+                  <input
+                    type="text"
+                    placeholder="Search spaces, employees, or analytics..."
+                    className="w-full pl-12 pr-4 py-3 border border-deloitte-gray-300 dark:border-deloitte-dark-border-primary rounded-xl focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-deloitte-dark-surface-primary text-deloitte-dark dark:text-deloitte-dark-text-primary placeholder-deloitte-gray-400 dark:placeholder-deloitte-dark-text-muted"
+                  />
+                </div>
               </div>
-            </div>
 
             {/* Right side - Controls */}
             <div className="flex items-center space-x-3">
               
+              {/* Dark Mode Toggle */}
+              <DarkModeToggle />
+
               {/* Time Range Selector */}
               <select
                 value={selectedTimeRange}
                 onChange={(e) => handleTimeRangeChange(e.target.value)}
-                className="px-4 py-2.5 border border-deloitte-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200"
+                className="px-4 py-2.5 border border-deloitte-gray-300 dark:border-deloitte-dark-border-primary rounded-xl text-sm font-medium focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-deloitte-dark-surface-primary text-deloitte-dark dark:text-deloitte-dark-text-primary"
               >
                 <option value="today">Today</option>
                 <option value="week">This Week</option>
@@ -293,21 +297,21 @@ const SpaceOptimizerDashboard = () => {
               </select>
 
               {/* Filter Button */}
-              <button className="p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors">
+              <button className="p-2.5 text-deloitte-gray-600 dark:text-deloitte-dark-text-tertiary hover:text-deloitte-dark dark:hover:text-deloitte-dark-text-primary hover:bg-deloitte-gray-100 dark:hover:bg-deloitte-dark-surface-hover rounded-xl transition-colors">
                 <Filter className="w-5 h-5" />
               </button>
 
               {/* Refresh Button */}
               <button 
                 onClick={handleRefresh}
-                className="p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors"
+                className="p-2.5 text-deloitte-gray-600 dark:text-deloitte-dark-text-tertiary hover:text-deloitte-dark dark:hover:text-deloitte-dark-text-primary hover:bg-deloitte-gray-100 dark:hover:bg-deloitte-dark-surface-hover rounded-xl transition-colors"
                 title="Refresh Data"
               >
                 <RefreshCw className="w-5 h-5" />
               </button>
 
               {/* Notifications */}
-              <button className="relative p-2.5 text-deloitte-gray-600 hover:text-deloitte-dark hover:bg-deloitte-gray-100 rounded-xl transition-colors">
+              <button className="relative p-2.5 text-deloitte-gray-600 dark:text-deloitte-dark-text-tertiary hover:text-deloitte-dark dark:hover:text-deloitte-dark-text-primary hover:bg-deloitte-gray-100 dark:hover:bg-deloitte-dark-surface-hover rounded-xl transition-colors">
                 <Bell className="w-5 h-5" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
               </button>
@@ -315,16 +319,16 @@ const SpaceOptimizerDashboard = () => {
               {/* Profile */}
               <button
                 onClick={() => setIsProfileOpen(true)}
-                className="flex items-center space-x-3 p-2 hover:bg-deloitte-gray-100 rounded-xl transition-colors"
+                className="flex items-center space-x-3 p-2 hover:bg-deloitte-gray-100 dark:hover:bg-deloitte-dark-surface-hover rounded-xl transition-colors"
               >
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className="w-9 h-9 rounded-full border-2 border-deloitte-gray-200"
+                  className="w-9 h-9 rounded-full border-2 border-deloitte-gray-200 dark:border-deloitte-dark-border-primary"
                 />
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-semibold text-deloitte-dark">{user.name}</p>
-                  <p className="text-xs text-deloitte-gray-600">{user.role}</p>
+                  <p className="text-sm font-semibold text-deloitte-dark dark:text-deloitte-dark-text-primary">{user.name}</p>
+                  <p className="text-xs text-deloitte-gray-600 dark:text-deloitte-dark-text-tertiary">{user.role}</p>
                 </div>
               </button>
             </div>
@@ -333,7 +337,7 @@ const SpaceOptimizerDashboard = () => {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="bg-white border-b border-deloitte-gray-200">
+      <nav className="bg-white dark:bg-deloitte-dark-bg-header border-b border-deloitte-gray-200 dark:border-deloitte-dark-border-primary transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex space-x-1">
             {[
@@ -351,8 +355,8 @@ const SpaceOptimizerDashboard = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-2 py-4 px-4 border-b-3 font-semibold text-sm transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'border-deloitte-primary text-deloitte-primary bg-deloitte-primary bg-opacity-5'
-                    : 'border-transparent text-deloitte-gray-500 hover:text-deloitte-dark hover:border-deloitte-gray-300'
+                    ? 'border-deloitte-primary text-deloitte-primary bg-deloitte-primary bg-opacity-5 dark:bg-deloitte-primary dark:bg-opacity-10'
+                    : 'border-transparent text-deloitte-gray-500 dark:text-deloitte-dark-text-tertiary hover:text-deloitte-dark dark:hover:text-deloitte-dark-text-primary hover:border-deloitte-gray-300 dark:hover:border-deloitte-dark-border-secondary'
                 }`}
               >
                 {tab.icon && <tab.icon className="w-4 h-4" />}
@@ -364,7 +368,7 @@ const SpaceOptimizerDashboard = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-6 py-8 transition-colors duration-300">
         {renderActiveView()}
       </main>
 
