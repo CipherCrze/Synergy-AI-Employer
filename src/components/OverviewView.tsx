@@ -35,10 +35,10 @@ const OverviewView: React.FC<OverviewViewProps> = ({
 
   const getZoneColor = (status: string) => {
     switch (status) {
-      case 'free': return '#1e40af';
-      case 'assigned': return '#60a5fa';
+      case 'free': return '#0076A8';
+      case 'assigned': return '#86BC25';
       case 'occupied': return '#6b7280';
-      case 'hotdesk': return '#f59e0b';
+      case 'hotdesk': return '#00A651';
       default: return '#e5e7eb';
     }
   };
@@ -389,11 +389,11 @@ const OverviewView: React.FC<OverviewViewProps> = ({
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-deloitte-secondary rounded"></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#0076A8' }}></div>
                 <span className="text-deloitte-gray-600 font-medium">Free</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-deloitte-primary rounded"></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#86BC25' }}></div>
                 <span className="text-deloitte-gray-600 font-medium">Assigned</span>
               </div>
               <div className="flex items-center space-x-2">
@@ -401,7 +401,7 @@ const OverviewView: React.FC<OverviewViewProps> = ({
                 <span className="text-deloitte-gray-600 font-medium">Occupied</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#00A651' }}></div>
                 <span className="text-deloitte-gray-600 font-medium">Hot Desk</span>
               </div>
             </div>
@@ -420,13 +420,13 @@ const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
         
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-          <div className="p-5 bg-deloitte-secondary bg-opacity-10 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-deloitte-secondary border-opacity-20">
-            <p className="text-2xl font-bold text-deloitte-secondary">
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(0, 118, 168, 0.1)', borderColor: 'rgba(0, 118, 168, 0.2)' }}>
+            <p className="text-2xl font-bold" style={{ color: '#0076A8' }}>
               {zoneHeatmap.filter(z => z.status === 'free').length}
             </p>
-            <p className="text-sm text-deloitte-secondary font-semibold">Free Spaces</p>
+            <p className="text-sm font-semibold" style={{ color: '#0076A8' }}>Free Spaces</p>
           </div>
-          <div className="p-5 bg-deloitte-primary bg-opacity-10 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-deloitte-primary border-opacity-20">
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(134, 188, 37, 0.1)', borderColor: 'rgba(134, 188, 37, 0.2)' }}>
             <p className="text-2xl font-bold text-deloitte-primary">
               {zoneHeatmap.filter(z => z.status === 'assigned').length}
             </p>
@@ -438,11 +438,11 @@ const OverviewView: React.FC<OverviewViewProps> = ({
             </p>
             <p className="text-sm text-deloitte-gray-600 font-semibold">Currently Occupied</p>
           </div>
-          <div className="p-5 bg-yellow-50 rounded-xl cursor-pointer hover:bg-yellow-100 transition-all duration-200 border border-yellow-200">
-            <p className="text-2xl font-bold text-yellow-700">
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(0, 166, 81, 0.1)', borderColor: 'rgba(0, 166, 81, 0.2)' }}>
+            <p className="text-2xl font-bold" style={{ color: '#00A651' }}>
               {zoneHeatmap.filter(z => z.status === 'hotdesk').length}
             </p>
-            <p className="text-sm text-yellow-600 font-semibold">Hot Desks Available</p>
+            <p className="text-sm font-semibold" style={{ color: '#00A651' }}>Hot Desks Available</p>
           </div>
         </div>
       </div>
