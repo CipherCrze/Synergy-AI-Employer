@@ -1,5 +1,5 @@
-// Mock API Service for Synergy AI Dashboard
-// Replaces backend API calls with frontend mock data
+// Enhanced Mock API Service for Synergy AI Dashboard
+// Complete frontend mock implementation without backend dependencies
 
 import { mockDataService } from './mockData';
 
@@ -15,7 +15,7 @@ class ApiService {
     // Load auth token from localStorage
     this.authToken = localStorage.getItem('auth_token');
     
-    // Start real-time updates
+    // Start real-time updates with reduced frequency
     mockDataService.startRealTimeUpdates();
   }
 
@@ -134,63 +134,11 @@ class ApiService {
     resolved?: boolean;
     limit?: number;
   } = {}) {
-    // Mock alerts data
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    const alerts = [
-      {
-        alert_id: 'ALERT_001',
-        severity: 'high',
-        title: 'High CO2 Levels',
-        description: 'Meeting Room B shows elevated CO2 levels (450 ppm)',
-        affected_spaces: ['Meeting Room B'],
-        timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-        resolved: false
-      },
-      {
-        alert_id: 'ALERT_002',
-        severity: 'medium',
-        title: 'Hot Seat Conflict',
-        description: 'Double booking detected for Hot Seat 2.05',
-        affected_spaces: ['Hot Seat 2.05'],
-        timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-        resolved: false
-      }
-    ];
-    
-    return alerts;
+    return mockDataService.getAlerts(params);
   }
 
   async getPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    const predictions = [];
-    for (let i = 1; i <= forecastDays; i++) {
-      const futureDate = new Date(Date.now() + i * 24 * 60 * 60 * 1000);
-      const baseValue = 75 + 10 * Math.sin(2 * Math.PI * i / 7);
-      const value = baseValue + (Math.random() - 0.5) * 10;
-      
-      predictions.push({
-        timestamp: futureDate.toISOString(),
-        value: Math.max(0, Math.min(100, value)),
-        predicted: true
-      });
-    }
-    
-    return {
-      historical_data: predictions.slice(-7),
-      prediction_model: {
-        model_name: "LSTM_Space_Predictor_v2.1",
-        accuracy: 0.87,
-        confidence: 0.82,
-        predictions
-      },
-      metadata: {
-        metric_type: metricType,
-        forecast_period: forecastDays,
-        model_last_trained: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
-      }
-    };
+    return mockDataService.getPredictions(metricType, forecastDays);
   }
 
   async getDashboardPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
@@ -206,72 +154,25 @@ class ApiService {
   }
 
   async exportReport(reportType: string, timeRange: string = 'week', format: string = 'pdf') {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    return {
-      file_type: format,
-      filename: `${reportType}_report_${new Date().toISOString().split('T')[0]}.${format}`,
-      summary: {
-        total_records: 100,
-        generated_at: new Date().toISOString(),
-        time_range: timeRange
-      },
-      download_url: `#download-${reportType}-${format}`
-    };
+    return mockDataService.exportReport(reportType, timeRange, format);
   }
 
   // Employee management methods
   async addEmployee(employeeData: any) {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      success: true,
-      employee: {
-        id: Math.floor(Math.random() * 9999) + 1000,
-        ...employeeData,
-        created_at: new Date().toISOString()
-      },
-      message: "Employee added successfully"
-    };
+    return mockDataService.addEmployee(employeeData);
   }
 
   async updateEmployee(employeeId: number, employeeData: any) {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      success: true,
-      employee: {
-        id: employeeId,
-        ...employeeData,
-        updated_at: new Date().toISOString()
-      },
-      message: "Employee updated successfully"
-    };
+    return mockDataService.updateEmployee(employeeId, employeeData);
   }
 
   async deleteEmployee(employeeId: number) {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      success: true,
-      message: "Employee deleted successfully",
-      deleted_employee_id: employeeId
-    };
+    return mockDataService.deleteEmployee(employeeId);
   }
 
   // Space management methods  
   async addSpace(spaceData: any) {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      success: true,
-      space: {
-        id: Math.floor(Math.random() * 9999) + 1000,
-        ...spaceData,
-        created_at: new Date().toISOString()
-      },
-      message: "Space added successfully"
-    };
+    return mockDataService.addSpace(spaceData);
   }
 }
 

@@ -1,5 +1,5 @@
-// Mock Data Service for Synergy AI Platform
-// Comprehensive mock data to replace backend API calls
+// Enhanced Mock Data Service for Synergy AI Platform
+// Comprehensive mock data to replace backend API calls and Firebase
 
 export interface MockUser {
   id: string;
@@ -115,7 +115,7 @@ class MockDataService {
     permissions: ["manage_employees", "view_analytics", "space_allocation"]
   };
 
-  // Generate mock spaces with hotseats
+  // Generate mock spaces with accurate hotseats
   private generateMockSpaces(): MockSpace[] {
     const spaces: MockSpace[] = [];
     let spaceId = 1;
@@ -148,7 +148,7 @@ class MockDataService {
       }
     }
 
-    // Hot seats (30 spaces) - More dynamic utilization
+    // Hot seats (30 spaces) - Accurate 2-person capacity
     for (let floor = 1; floor <= 3; floor++) {
       for (let hotdesk = 1; hotdesk <= 10; hotdesk++) {
         const current = Math.floor(Math.random() * 3); // 0-2 people
@@ -214,6 +214,11 @@ class MockDataService {
     const departments = ['Engineering', 'Sales', 'Marketing', 'HR', 'Finance', 'Operations'];
     const roles = ['Manager', 'Senior', 'Junior', 'Lead', 'Associate', 'Director'];
     const skills = ['JavaScript', 'React', 'Python', 'Data Analysis', 'Project Management', 'Sales', 'Marketing', 'Design'];
+    const names = [
+      'Rajesh Kumar', 'Priya Singh', 'Amit Patel', 'Sneha Gupta', 'Vikram Sharma', 'Anita Reddy',
+      'Suresh Nair', 'Kavya Iyer', 'Rohit Joshi', 'Meera Agarwal', 'Arjun Rao', 'Divya Menon',
+      'Kiran Desai', 'Pooja Verma', 'Sanjay Pillai', 'Ritu Kapoor', 'Manoj Tiwari', 'Shweta Jain'
+    ];
     
     const employees: MockEmployee[] = [];
     
@@ -221,12 +226,13 @@ class MockDataService {
       const dept = departments[Math.floor(Math.random() * departments.length)];
       const role = roles[Math.floor(Math.random() * roles.length)];
       const status = Math.random() > 0.1 ? 'active' : ['inactive', 'remote', 'on_leave'][Math.floor(Math.random() * 3)] as any;
+      const name = names[Math.floor(Math.random() * names.length)] || `Employee ${i}`;
       
       employees.push({
         id: i,
         emp_ID: `DEL${i.toString().padStart(3, '0')}`,
-        name: `Employee ${i}`,
-        email: `employee${i}@deloitte.com`,
+        name,
+        email: `${name.toLowerCase().replace(' ', '.')}@deloitte.com`,
         role,
         department: dept,
         status,
@@ -248,7 +254,7 @@ class MockDataService {
     return employees;
   }
 
-  // Generate occupancy data
+  // Generate stable occupancy data
   generateOccupancyData(): MockOccupancyData[] {
     const data: MockOccupancyData[] = [];
     const now = new Date();
@@ -269,8 +275,8 @@ class MockDataService {
         baseOccupancy = 15;
       }
       
-      const occupancy = Math.max(10, baseOccupancy + (Math.random() - 0.5) * 10);
-      const predicted = occupancy + (Math.random() - 0.5) * 5;
+      const occupancy = Math.max(10, baseOccupancy + (Math.random() - 0.5) * 5); // Reduced volatility
+      const predicted = occupancy + (Math.random() - 0.5) * 3; // Reduced prediction variance
       
       data.push({
         hour: hour.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
@@ -284,7 +290,7 @@ class MockDataService {
     return data;
   }
 
-  // Generate environmental data
+  // Generate stable environmental data
   generateEnvironmentalData(): MockEnvironmentalData[] {
     const data: MockEnvironmentalData[] = [];
     const now = new Date();
@@ -295,17 +301,17 @@ class MockDataService {
       
       // Temperature varies throughout the day
       const baseTemp = 22 + 2 * Math.sin((hourNum - 6) * Math.PI / 12);
-      const temperature = baseTemp + (Math.random() - 0.5) * 2;
+      const temperature = baseTemp + (Math.random() - 0.5) * 1; // Reduced variance
       
       // Humidity inversely related to temperature
-      const humidity = 60 - (temperature - 22) * 2 + (Math.random() - 0.5) * 10;
+      const humidity = 60 - (temperature - 22) * 2 + (Math.random() - 0.5) * 5; // Reduced variance
       
       // CO2 increases with occupancy
       const occupancyFactor = hourNum >= 9 && hourNum <= 17 ? 1.5 : 0.5;
-      const co2 = 400 + occupancyFactor * 200 + (Math.random() - 0.5) * 100;
+      const co2 = 400 + occupancyFactor * 200 + (Math.random() - 0.5) * 50; // Reduced variance
       
       // Noise correlates with occupancy
-      const noise = 35 + occupancyFactor * 15 + (Math.random() - 0.5) * 10;
+      const noise = 35 + occupancyFactor * 15 + (Math.random() - 0.5) * 5; // Reduced variance
       
       // Comfort score based on all factors
       const tempComfort = Math.max(0, 100 - Math.abs(temperature - 22) * 10);
@@ -326,7 +332,7 @@ class MockDataService {
     return data;
   }
 
-  // Generate energy data
+  // Generate stable energy data
   generateEnergyData(): MockEnergyData[] {
     const data: MockEnergyData[] = [];
     const now = new Date();
@@ -345,10 +351,10 @@ class MockDataService {
         baseConsumption = 60;
       }
       
-      const consumption = baseConsumption + (Math.random() - 0.5) * 20;
-      const cost = consumption * (10.5 + (Math.random() - 0.5) * 2);
+      const consumption = baseConsumption + (Math.random() - 0.5) * 10; // Reduced variance
+      const cost = consumption * (10.5 + (Math.random() - 0.5) * 1); // Reduced variance
       const efficiency = 70 + Math.random() * 25;
-      const predicted = consumption + (Math.random() - 0.5) * 10;
+      const predicted = consumption + (Math.random() - 0.5) * 5; // Reduced variance
       
       data.push({
         hour: hour.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
@@ -363,7 +369,7 @@ class MockDataService {
     return data;
   }
 
-  // Generate zone heatmap data
+  // Generate accurate zone heatmap data with proper hotseats
   generateZoneHeatmap(): MockZoneData[] {
     const zones: MockZoneData[] = [];
     
@@ -373,8 +379,8 @@ class MockDataService {
         let status: 'free' | 'assigned' | 'occupied' | 'hotdesk';
         let employee: string | undefined;
         
-        // More realistic distribution for hotseats
-        if (col >= 8) { // Last 4 columns are hotseats
+        // Last 4 columns are hotseats (accurate representation)
+        if (col >= 8) {
           if (rand > 0.6) {
             status = 'hotdesk';
             employee = Math.random() > 0.5 ? `EMP ${Math.floor(Math.random() * 999) + 100}` : undefined;
@@ -415,9 +421,9 @@ class MockDataService {
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     return days.map((day, index) => {
       const isWeekend = index >= 5;
-      const baseUtil = isWeekend ? 20 + Math.random() * 15 : 65 + Math.random() * 20;
-      const baseEff = isWeekend ? 60 + Math.random() * 15 : 80 + Math.random() * 15;
-      const baseSat = isWeekend ? 70 + Math.random() * 15 : 85 + Math.random() * 10;
+      const baseUtil = isWeekend ? 20 + Math.random() * 10 : 65 + Math.random() * 15; // Reduced variance
+      const baseEff = isWeekend ? 60 + Math.random() * 10 : 80 + Math.random() * 10; // Reduced variance
+      const baseSat = isWeekend ? 70 + Math.random() * 10 : 85 + Math.random() * 8; // Reduced variance
       
       return {
         day,
@@ -428,7 +434,7 @@ class MockDataService {
     });
   }
 
-  // AI Model Analytics
+  // Enhanced AI Model Analytics
   getSpaceOptimizerAnalytics() {
     return {
       modelName: "Space Optimizer AI v2.1",
@@ -537,7 +543,7 @@ class MockDataService {
   // API simulation methods
   async login(email: string, password: string): Promise<{ access_token: string; user: MockUser }> {
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 800));
     
     // Always succeed for demo
     return {
@@ -547,14 +553,14 @@ class MockDataService {
   }
 
   async logout(): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 300));
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');
     localStorage.removeItem('user_type');
   }
 
   async getDashboardSummary() {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     const spaces = this.generateMockSpaces();
     const employees = this.generateMockEmployees();
@@ -565,7 +571,7 @@ class MockDataService {
         active_employees: employees.filter(e => e.status === 'active').length,
         total_spaces: spaces.length,
         occupied_spaces: spaces.filter(s => s.current > 0).length,
-        active_alerts: Math.floor(Math.random() * 5) + 3,
+        active_alerts: Math.floor(Math.random() * 3) + 2, // Reduced alerts
         avg_occupancy: Math.round((spaces.reduce((sum, s) => sum + s.utilization, 0) / spaces.length) * 100 * 10) / 10,
         energy_efficiency: 87.5,
         cost_per_sqft: 45.2,
@@ -576,12 +582,12 @@ class MockDataService {
   }
 
   async getOccupancyData(timeRange: string = 'today') {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     return { data: this.generateOccupancyData() };
   }
 
   async getSpaceData() {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     const spaces = this.generateMockSpaces();
     
     // Group by type for space data
@@ -600,7 +606,7 @@ class MockDataService {
       current: data.current,
       capacity: data.capacity,
       utilization: data.current / data.capacity,
-      efficiency: 70 + Math.random() * 25,
+      efficiency: 70 + Math.random() * 20, // Reduced variance
       status: data.current / data.capacity > 0.8 ? 'overutilized' : 
               data.current / data.capacity > 0.4 ? 'optimal' : 'underutilized'
     }));
@@ -609,22 +615,22 @@ class MockDataService {
   }
 
   async getEnvironmentalData() {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     return { data: this.generateEnvironmentalData() };
   }
 
   async getWeeklyTrend() {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     return { data: this.generateWeeklyTrend() };
   }
 
   async getZoneHeatmap() {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     return { data: this.generateZoneHeatmap() };
   }
 
   async getEmployees(params: any = {}) {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     let employees = this.generateMockEmployees();
     
@@ -658,7 +664,7 @@ class MockDataService {
   }
 
   async getDetailedSpaces(params: any = {}) {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     let spaces = this.generateMockSpaces();
     
@@ -687,7 +693,7 @@ class MockDataService {
   }
 
   async getAIPredictions() {
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise(resolve => setTimeout(resolve, 300));
     
     return {
       space_optimizer: this.getSpaceOptimizerAnalytics(),
@@ -697,7 +703,7 @@ class MockDataService {
   }
 
   async getOptimizationAnalytics() {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     return {
       suggestions: [
@@ -726,7 +732,7 @@ class MockDataService {
   }
 
   async getEnergyDashboard() {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     const hourlyData = this.generateEnergyData();
     const totalConsumption = hourlyData.reduce((sum, h) => sum + h.consumption, 0);
@@ -754,7 +760,7 @@ class MockDataService {
   }
 
   async getEnergyPredictions(hours: number = 24) {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     const predictions = [];
     for (let i = 1; i <= hours; i++) {
@@ -766,7 +772,7 @@ class MockDataService {
         baseConsumption = 120 + 30 * Math.sin((hourNum - 8) * Math.PI / 10);
       }
       
-      const predicted = baseConsumption + (Math.random() - 0.5) * 15;
+      const predicted = baseConsumption + (Math.random() - 0.5) * 8; // Reduced variance
       
       predictions.push({
         timestamp: futureTime.toISOString(),
@@ -792,7 +798,7 @@ class MockDataService {
   }
 
   async getEnergyOptimization() {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     return {
       anomalies: [
@@ -836,7 +842,7 @@ class MockDataService {
   }
 
   async getConflicts() {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 150));
     
     return [
       {
@@ -867,7 +873,7 @@ class MockDataService {
   }
 
   async resolveConflict(conflictId: string, resolution: string) {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     return {
       message: 'Conflict resolved successfully',
@@ -877,12 +883,12 @@ class MockDataService {
     };
   }
 
-  // Start real-time updates (reduced frequency)
+  // Reduced frequency real-time updates
   startRealTimeUpdates() {
     if (this.updateInterval) return;
     
     this.updateInterval = setInterval(() => {
-      // Notify listeners with small updates (reduced volatility)
+      // Notify listeners with minimal updates
       this.listeners.forEach((callback, key) => {
         if (key === 'occupancy') {
           callback(this.generateOccupancyData());
@@ -892,7 +898,7 @@ class MockDataService {
           callback(this.generateEnergyData());
         }
       });
-    }, 30000); // Update every 30 seconds instead of every few seconds
+    }, 45000); // Update every 45 seconds for stability
   }
 
   stopRealTimeUpdates() {
@@ -908,6 +914,137 @@ class MockDataService {
 
   unsubscribe(key: string) {
     this.listeners.delete(key);
+  }
+
+  // Additional methods for complete functionality
+  async exportReport(reportType: string, timeRange: string = 'week', format: string = 'pdf') {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    return {
+      file_type: format,
+      filename: `${reportType}_report_${new Date().toISOString().split('T')[0]}.${format}`,
+      summary: {
+        total_records: 100,
+        generated_at: new Date().toISOString(),
+        time_range: timeRange
+      },
+      download_url: `#download-${reportType}-${format}`
+    };
+  }
+
+  async addEmployee(employeeData: any) {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    return {
+      success: true,
+      employee: {
+        id: Math.floor(Math.random() * 9999) + 1000,
+        ...employeeData,
+        created_at: new Date().toISOString()
+      },
+      message: "Employee added successfully"
+    };
+  }
+
+  async updateEmployee(employeeId: number, employeeData: any) {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    return {
+      success: true,
+      employee: {
+        id: employeeId,
+        ...employeeData,
+        updated_at: new Date().toISOString()
+      },
+      message: "Employee updated successfully"
+    };
+  }
+
+  async deleteEmployee(employeeId: number) {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    return {
+      success: true,
+      message: "Employee deleted successfully",
+      deleted_employee_id: employeeId
+    };
+  }
+
+  async addSpace(spaceData: any) {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    return {
+      success: true,
+      space: {
+        id: Math.floor(Math.random() * 9999) + 1000,
+        ...spaceData,
+        created_at: new Date().toISOString()
+      },
+      message: "Space added successfully"
+    };
+  }
+
+  async getPredictions(metricType: string = 'occupancy', forecastDays: number = 7) {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    
+    const predictions = [];
+    for (let i = 1; i <= forecastDays; i++) {
+      const futureDate = new Date(Date.now() + i * 24 * 60 * 60 * 1000);
+      const baseValue = 75 + 10 * Math.sin(2 * Math.PI * i / 7);
+      const value = baseValue + (Math.random() - 0.5) * 5; // Reduced variance
+      
+      predictions.push({
+        timestamp: futureDate.toISOString(),
+        value: Math.max(0, Math.min(100, value)),
+        predicted: true
+      });
+    }
+    
+    return {
+      historical_data: predictions.slice(-7),
+      prediction_model: {
+        model_name: "LSTM_Space_Predictor_v2.1",
+        accuracy: 0.87,
+        confidence: 0.82,
+        predictions
+      },
+      metadata: {
+        metric_type: metricType,
+        forecast_period: forecastDays,
+        model_last_trained: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    };
+  }
+
+  async getOptimizationSuggestions(params: any = {}) {
+    return this.getOptimizationAnalytics();
+  }
+
+  async getAlerts(params: any = {}) {
+    await new Promise(resolve => setTimeout(resolve, 150));
+    
+    const alerts = [
+      {
+        alert_id: 'ALERT_001',
+        severity: 'high',
+        title: 'High CO2 Levels',
+        description: 'Meeting Room B shows elevated CO2 levels (450 ppm)',
+        affected_spaces: ['Meeting Room B'],
+        timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+        resolved: false
+      },
+      {
+        alert_id: 'ALERT_002',
+        severity: 'medium',
+        title: 'Hot Seat Conflict',
+        description: 'Double booking detected for Hot Seat 2.05',
+        affected_spaces: ['Hot Seat 2.05'],
+        timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+        resolved: false
+      }
+    ];
+    
+    return alerts;
   }
 }
 
