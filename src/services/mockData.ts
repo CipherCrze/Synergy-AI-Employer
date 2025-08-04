@@ -107,10 +107,10 @@ class MockDataService {
     role: "HR Manager",
     company: "Deloitte India",
     department: "Human Resources",
-      case 'free': return 'Available';
-      case 'assigned': return 'Booked';
-      case 'occupied': return 'In Use';
-      case 'hotdesk': return '#00B140';
+      case'free': return 'Available';
+      case'assigned': return 'Booked';
+      case'occupied': return 'In Use';
+      case'hotdesk': return '#00B140';
     employeeId: "HR001",
     permissions: ["manage_employees", "view_analytics", "space_allocation"]
   };
