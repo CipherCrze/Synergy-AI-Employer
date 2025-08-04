@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Arial:wght@300;400;500;600;700;800&family=Source+Sans+Pro:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components; 
@@ -6,18 +6,18 @@
 
 @layer base {
   * {
-    font-family: 'Source Sans Pro', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   
   body {
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    background-color: #f8f9fa;
+    background-color: #F5F5F5;
     color: #2d3748;
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     line-height: 1.2;
   }
@@ -31,55 +31,83 @@
 }
 
 @layer components {
-  /* Deloitte Brand Gradients */
-  .deloitte-gradient {
-    background: linear-gradient(135deg, #86BC25 0%, #00A651 50%, #0076A8 100%);
+  /* New Brand Gradients */
+  .brand-gradient {
+    background: linear-gradient(135deg, #FFA500 0%, #00B140 50%, #1E90FF 100%);
   }
   
-  .deloitte-gradient-hover {
-    background: linear-gradient(135deg, #7AAD23 0%, #009147 50%, #006B97 100%);
+  .brand-gradient-hover {
+    background: linear-gradient(135deg, #FF8C00 0%, #009E3A 50%, #1873CC 100%);
   }
 
-  .deloitte-primary-gradient {
-    background: linear-gradient(135deg, #86BC25 0%, #9BCF3A 100%);
+  .brand-primary-gradient {
+    background: linear-gradient(135deg, #FFA500 0%, #FFB84D 100%);
   }
 
-  .deloitte-secondary-gradient {
-    background: linear-gradient(135deg, #0076A8 0%, #4FA8D8 100%);
+  .brand-secondary-gradient {
+    background: linear-gradient(135deg, #1E90FF 0%, #4FA8D8 100%);
   }
 
   /* Brand Colors */
-  .deloitte-primary {
-    color: #86BC25;
+  .brand-primary {
+    color: #FFA500;
   }
   
-  .deloitte-secondary {
-    color: #0076A8;
+  .brand-secondary {
+    color: #1E90FF;
   }
   
-  .deloitte-accent {
-    color: #00A651;
+  .brand-accent {
+    color: #00B140;
   }
 
-  .deloitte-dark {
+  .brand-dark {
     color: #2D3748;
   }
 
+  .brand-available {
+    color: #FFA500;
+  }
+
+  .brand-booked {
+    color: #FFD700;
+  }
+
+  .brand-in-use {
+    color: #1E90FF;
+  }
+
   /* Background Colors */
-  .bg-deloitte-primary {
-    background-color: #86BC25;
+  .bg-brand-primary {
+    background-color: #FFA500;
   }
 
-  .bg-deloitte-secondary {
-    background-color: #0076A8;
+  .bg-brand-secondary {
+    background-color: #1E90FF;
   }
 
-  .bg-deloitte-accent {
-    background-color: #00A651;
+  .bg-brand-accent {
+    background-color: #00B140;
   }
 
-  .bg-deloitte-dark {
+  .bg-brand-dark {
     background-color: #2D3748;
+  }
+
+  .bg-brand-available {
+    background-color: #FFA500;
+  }
+
+  .bg-brand-booked {
+    background-color: #FFD700;
+  }
+
+  .bg-brand-in-use {
+    background-color: #1E90FF;
+  }
+
+  .bg-brand-background {
+    background-color: #F5F5F5;
   }
 
   /* Enhanced Shadow System */
@@ -99,17 +127,17 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
-  /* Deloitte Button Styles */
-  .btn-deloitte-primary {
-    @apply bg-deloitte-primary hover:bg-opacity-90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  /* Brand Button Styles */
+  .btn-brand-primary {
+    @apply bg-brand-primary hover:bg-opacity-90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
   }
 
-  .btn-deloitte-secondary {
-    @apply bg-deloitte-secondary hover:bg-opacity-90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  .btn-brand-secondary {
+    @apply bg-brand-secondary hover:bg-opacity-90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
   }
 
-  .btn-deloitte-outline {
-    @apply border-2 border-deloitte-primary text-deloitte-primary hover:bg-deloitte-primary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200;
+  .btn-brand-outline {
+    @apply border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200;
   }
 
   /* Glass Effects */
@@ -128,17 +156,17 @@
   }
 
   /* Enhanced Card Styles */
-  .deloitte-card {
-    @apply bg-white rounded-2xl card-shadow border border-deloitte-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer;
+  .brand-card {
+    @apply bg-white rounded-2xl card-shadow border border-gray-200 hover:card-shadow-lg transition-all duration-300 cursor-pointer;
   }
 
-  .deloitte-card-interactive {
-    @apply deloitte-card hover:transform hover:-translate-y-1 hover:scale-102;
+  .brand-card-interactive {
+    @apply brand-card hover:transform hover:-translate-y-1 hover:scale-102;
   }
 
   /* Status Indicators */
   .status-active {
-    @apply bg-deloitte-accent text-white;
+    @apply bg-brand-accent text-white;
   }
 
   .status-warning {
@@ -150,26 +178,38 @@
   }
 
   .status-info {
-    @apply bg-deloitte-secondary text-white;
+    @apply bg-brand-secondary text-white;
+  }
+
+  .status-available {
+    @apply bg-brand-available text-white;
+  }
+
+  .status-booked {
+    @apply bg-brand-booked text-black;
+  }
+
+  .status-in-use {
+    @apply bg-brand-in-use text-white;
   }
 
   /* Progress Bars */
-  .progress-deloitte {
-    @apply w-full bg-deloitte-gray-200 rounded-full h-2;
+  .progress-brand {
+    @apply w-full bg-gray-200 rounded-full h-2;
   }
 
-  .progress-deloitte .progress-fill {
+  .progress-brand .progress-fill {
     @apply h-2 rounded-full transition-all duration-300;
-    background: linear-gradient(90deg, #86BC25 0%, #00A651 100%);
+    background: linear-gradient(90deg, #FFA500 0%, #00B140 100%);
   }
 
   /* Loading States */
   .loading-spinner {
-    @apply w-8 h-8 border-4 border-deloitte-primary border-t-transparent rounded-full animate-spin;
+    @apply w-8 h-8 border-4 border-brand-primary border-t-transparent rounded-full animate-spin;
   }
 
   .loading-skeleton {
-    @apply animate-pulse bg-deloitte-gray-200 rounded;
+    @apply animate-pulse bg-gray-200 rounded;
   }
 
   /* Custom Scrollbar */
@@ -183,12 +223,12 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #86BC25;
+    background: #FFA500;
     border-radius: 4px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #7AAD23;
+    background: #FF8C00;
   }
 
   /* Navigation Enhancements */
@@ -197,16 +237,16 @@
   }
 
   .nav-item-active {
-    @apply border-deloitte-primary text-deloitte-primary bg-deloitte-primary bg-opacity-5;
+    @apply border-brand-primary text-brand-primary bg-brand-primary bg-opacity-5;
   }
 
   .nav-item-inactive {
-    @apply border-transparent text-deloitte-gray-500 hover:text-deloitte-dark hover:border-deloitte-gray-300;
+    @apply border-transparent text-gray-500 hover:text-brand-dark hover:border-gray-300;
   }
 
   /* Form Enhancements */
   .form-input {
-    @apply w-full px-4 py-3 border border-deloitte-gray-300 rounded-xl focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200 placeholder-deloitte-gray-400;
+    @apply w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 placeholder-gray-400;
   }
 
   .form-select {

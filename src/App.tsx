@@ -247,31 +247,31 @@ const SpaceOptimizerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-deloitte-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div className="min-h-screen bg-brand-background dark:bg-gray-900 transition-colors duration-200">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-deloitte-gray-200 dark:border-gray-700 sticky top-0 z-30 shadow-sm transition-colors duration-200">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30 shadow-sm transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             
             {/* Left side - Logo and Title */}
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 deloitte-gradient rounded-xl flex items-center justify-center shadow-md">
+              <div className="w-12 h-12 brand-gradient rounded-xl flex items-center justify-center shadow-md">
                 <Activity className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-deloitte-dark dark:text-white">Synergy AI</h1>
-                <p className="text-sm text-deloitte-gray-600 dark:text-gray-300 font-medium">Workspace Intelligence</p>
+                <h1 className="text-xl font-bold text-brand-dark dark:text-white">Synergy AI</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Workspace Intelligence</p>
               </div>
             </div>
 
             {/* Center - Search */}
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-deloitte-gray-400" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search spaces, employees, or analytics..."
-                  className="w-full pl-12 pr-4 py-3 border border-deloitte-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -283,7 +283,7 @@ const SpaceOptimizerDashboard = () => {
               <select
                 value={selectedTimeRange}
                 onChange={(e) => handleTimeRangeChange(e.target.value)}
-                className="px-4 py-2.5 border border-deloitte-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium focus:ring-2 focus:ring-deloitte-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="today">Today</option>
                 <option value="week">This Week</option>
@@ -294,7 +294,7 @@ const SpaceOptimizerDashboard = () => {
               {/* Dark Mode Toggle */}
               <button 
                 onClick={toggleTheme}
-                className="p-2.5 text-deloitte-gray-600 dark:text-gray-300 hover:text-deloitte-dark dark:hover:text-white hover:bg-deloitte-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
+                className="p-2.5 text-gray-600 dark:text-gray-300 hover:text-brand-dark dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
                 {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
@@ -303,14 +303,14 @@ const SpaceOptimizerDashboard = () => {
               {/* Refresh Button */}
               <button 
                 onClick={handleRefresh}
-                className="p-2.5 text-deloitte-gray-600 dark:text-gray-300 hover:text-deloitte-dark dark:hover:text-white hover:bg-deloitte-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
+                className="p-2.5 text-gray-600 dark:text-gray-300 hover:text-brand-dark dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
                 title="Refresh Data"
               >
                 <RefreshCw className="w-5 h-5" />
               </button>
 
               {/* Notifications */}
-              <button className="relative p-2.5 text-deloitte-gray-600 dark:text-gray-300 hover:text-deloitte-dark dark:hover:text-white hover:bg-deloitte-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors">
+              <button className="relative p-2.5 text-gray-600 dark:text-gray-300 hover:text-brand-dark dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors">
                 <Bell className="w-5 h-5" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
               </button>
@@ -318,16 +318,16 @@ const SpaceOptimizerDashboard = () => {
               {/* Profile */}
               <button
                 onClick={() => setIsProfileOpen(true)}
-                className="flex items-center space-x-3 p-2 hover:bg-deloitte-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
+                className="flex items-center space-x-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
               >
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className="w-9 h-9 rounded-full border-2 border-deloitte-gray-200"
+                  className="w-9 h-9 rounded-full border-2 border-gray-200"
                 />
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-semibold text-deloitte-dark dark:text-white">{user.name}</p>
-                  <p className="text-xs text-deloitte-gray-600 dark:text-gray-300">{user.role}</p>
+                  <p className="text-sm font-semibold text-brand-dark dark:text-white">{user.name}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">{user.role}</p>
                 </div>
               </button>
             </div>
@@ -336,7 +336,7 @@ const SpaceOptimizerDashboard = () => {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="bg-white dark:bg-gray-800 border-b border-deloitte-gray-200 dark:border-gray-700 transition-colors duration-200">
+      <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex space-x-1">
             {[
@@ -354,8 +354,8 @@ const SpaceOptimizerDashboard = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-2 py-4 px-4 border-b-3 font-semibold text-sm transition-all duration-200 cursor-pointer ${
                   activeTab === tab.id
-                    ? 'border-deloitte-primary text-deloitte-primary bg-deloitte-primary bg-opacity-5'
-                    : 'border-transparent text-deloitte-gray-500 dark:text-gray-400 hover:text-deloitte-dark dark:hover:text-white hover:border-deloitte-gray-300'
+                    ? 'border-brand-primary text-brand-primary bg-brand-primary bg-opacity-5'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-brand-dark dark:hover:text-white hover:border-gray-300'
                 }`}
               >
                 {tab.icon && <tab.icon className="w-4 h-4" />}

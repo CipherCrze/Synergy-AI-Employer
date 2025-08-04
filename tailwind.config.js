@@ -4,51 +4,31 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Source Sans Pro', 'Arial', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        'heading': ['Source Sans Pro', 'Arial', 'sans-serif'],
+        'sans': ['Space Grotesk', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'heading': ['Space Grotesk', 'sans-serif'],
       },
       colors: {
-        deloitte: {
-          primary: '#86BC25',
-          secondary: '#0076A8', 
-          accent: '#00A651',
+        brand: {
+          primary: '#FFA500',
+          secondary: '#1E90FF', 
+          accent: '#00B140',
+          available: '#FFA500',
+          booked: '#FFD700',
+          'in-use': '#1E90FF',
+          background: '#F5F5F5',
           dark: '#2D3748',
           light: '#F8F9FA',
-          gray: {
-            50: '#F8F9FA',
-            100: '#F1F3F4',
-            200: '#E8EAED',
-            300: '#DADCE0',
-            400: '#9AA0A6',
-            500: '#5F6368',
-            600: '#3C4043',
-            700: '#2D3748',
-            800: '#1A202C',
-            900: '#171923'
-          },
-          green: {
-            50: '#F0F9FF',
-            100: '#E0F4FE',
-            200: '#BAE9FD',
-            300: '#7AD5FB',
-            400: '#34C3F7',
-            500: '#86BC25',
-            600: '#7AAD23',
-            700: '#6B9B1F',
-            800: '#5C891B',
-            900: '#4E7717'
-          },
-          blue: {
-            50: '#F0F9FF',
-            100: '#E0F4FE',
-            200: '#BAE9FD',
-            300: '#7AD5FB',
-            400: '#34C3F7',
-            500: '#0076A8',
-            600: '#006B97',
-            700: '#005E85',
-            800: '#005174',
-            900: '#004562'
+          orange: {
+            50: '#FFF7ED',
+            100: '#FFEDD5',
+            200: '#FED7AA',
+            300: '#FDBA74',
+            400: '#FB923C',
+            500: '#FFA500',
+            600: '#EA580C',
+            700: '#C2410C',
+            800: '#9A3412',
+            900: '#7C2D12'
           }
         }
       },
@@ -86,10 +66,10 @@ export default {
         '25': 'repeat(25, minmax(0, 1fr))',
       },
       boxShadow: {
-        'deloitte': '0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'deloitte-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'deloitte-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'deloitte-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'brand': '0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'brand-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'brand-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'brand-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

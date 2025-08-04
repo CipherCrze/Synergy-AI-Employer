@@ -100,8 +100,8 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-deloitte-dark">AI Models Dashboard</h1>
-          <p className="text-deloitte-gray-600 mt-2">
+          <h1 className="text-3xl font-bold text-brand-dark">AI Models Dashboard</h1>
+          <p className="text-gray-600 mt-2">
             Real-time AI-powered space optimization and energy prediction analytics
           </p>
         </div>
@@ -109,7 +109,7 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
           <button
             onClick={handleRefresh}
             disabled={loading}
-            className="flex items-center space-x-2 px-4 py-2 bg-deloitte-primary text-white rounded-xl hover:bg-opacity-90 disabled:opacity-50 transition-all duration-200"
+            className="flex items-center space-x-2 px-4 py-2 bg-brand-primary text-white rounded-xl hover:bg-opacity-90 disabled:opacity-50 transition-all duration-200"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -119,36 +119,36 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               type="checkbox"
               checked={autoRefresh}
               onChange={(e) => setAutoRefresh(e.target.checked)}
-              className="rounded border-deloitte-gray-300 text-deloitte-primary focus:ring-deloitte-primary"
+              className="rounded border-gray-300 text-brand-primary focus:ring-brand-primary"
             />
-            <span className="text-sm text-deloitte-gray-600">Auto-refresh</span>
+            <span className="text-sm text-gray-600">Auto-refresh</span>
           </label>
         </div>
       </div>
 
       {/* Status Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-gray-200">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-deloitte-primary bg-opacity-10 rounded-xl flex items-center justify-center">
-              <Brain className="w-6 h-6 text-deloitte-primary" />
+            <div className="w-12 h-12 bg-brand-primary bg-opacity-10 rounded-xl flex items-center justify-center">
+              <Brain className="w-6 h-6 text-brand-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-deloitte-gray-600">AI Models Active</p>
-              <p className="text-2xl font-bold text-deloitte-dark">2/2</p>
+              <p className="text-sm font-medium text-gray-600">AI Models Active</p>
+              <p className="text-2xl font-bold text-brand-dark">2/2</p>
               <p className="text-xs text-green-600 mt-1">All systems operational</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-gray-200">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-deloitte-accent bg-opacity-10 rounded-xl flex items-center justify-center">
-              <Target className="w-6 h-6 text-deloitte-accent" />
+            <div className="w-12 h-12 bg-brand-accent bg-opacity-10 rounded-xl flex items-center justify-center">
+              <Target className="w-6 h-6 text-brand-accent" />
             </div>
             <div>
-              <p className="text-sm font-medium text-deloitte-gray-600">Prediction Accuracy</p>
-              <p className="text-2xl font-bold text-deloitte-dark">
+              <p className="text-sm font-medium text-gray-600">Prediction Accuracy</p>
+              <p className="text-2xl font-bold text-brand-dark">
                 {spaceOptimizerData ? `${spaceOptimizerData.accuracy.toFixed(1)}%` : '87.3%'}
               </p>
               <p className="text-xs text-green-600 mt-1">Above target</p>
@@ -156,29 +156,29 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-gray-200">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-deloitte-secondary bg-opacity-10 rounded-xl flex items-center justify-center">
-              <Lightbulb className="w-6 h-6 text-deloitte-secondary" />
+            <div className="w-12 h-12 bg-brand-secondary bg-opacity-10 rounded-xl flex items-center justify-center">
+              <Lightbulb className="w-6 h-6 text-brand-secondary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-deloitte-gray-600">Active Recommendations</p>
-              <p className="text-2xl font-bold text-deloitte-dark">
+              <p className="text-sm font-medium text-gray-600">Active Recommendations</p>
+              <p className="text-2xl font-bold text-brand-dark">
                 {spaceOptimizerData ? spaceOptimizerData.recommendations.length : '3'}
               </p>
-              <p className="text-xs text-deloitte-secondary mt-1">Ready to implement</p>
+              <p className="text-xs text-brand-secondary mt-1">Ready to implement</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl card-shadow border border-deloitte-gray-200">
+        <div className="bg-white p-6 rounded-2xl card-shadow border border-gray-200">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-yellow-500 bg-opacity-10 rounded-xl flex items-center justify-center">
               <AlertTriangle className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-deloitte-gray-600">Anomalies Detected</p>
-              <p className="text-2xl font-bold text-deloitte-dark">
+              <p className="text-sm font-medium text-gray-600">Anomalies Detected</p>
+              <p className="text-2xl font-bold text-brand-dark">
                 {energyPredictorData ? energyPredictorData.anomalies.length : '1'}
               </p>
               <p className="text-xs text-yellow-600 mt-1">Requires attention</p>
@@ -188,15 +188,15 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
       </div>
 
       {/* Model Selection */}
-      <div className="bg-white rounded-2xl card-shadow border border-deloitte-gray-200">
-        <div className="border-b border-deloitte-gray-200">
+      <div className="bg-white rounded-2xl card-shadow border border-gray-200">
+        <div className="border-b border-gray-200">
           <nav className="flex space-x-8 px-6">
             <button
               onClick={() => setSelectedModel('space')}
               className={`py-4 px-1 border-b-2 font-semibold text-sm transition-all duration-200 ${
                 selectedModel === 'space'
-                  ? 'border-deloitte-primary text-deloitte-primary'
-                  : 'border-transparent text-deloitte-gray-500 hover:text-deloitte-dark hover:border-deloitte-gray-300'
+                  ? 'border-brand-primary text-brand-primary'
+                  : 'border-transparent text-gray-500 hover:text-brand-dark hover:border-gray-300'
               }`}
             >
               <div className="flex items-center space-x-2">
@@ -208,8 +208,8 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               onClick={() => setSelectedModel('energy')}
               className={`py-4 px-1 border-b-2 font-semibold text-sm transition-all duration-200 ${
                 selectedModel === 'energy'
-                  ? 'border-deloitte-primary text-deloitte-primary'
-                  : 'border-transparent text-deloitte-gray-500 hover:text-deloitte-dark hover:border-deloitte-gray-300'
+                  ? 'border-brand-primary text-brand-primary'
+                  : 'border-transparent text-gray-500 hover:text-brand-dark hover:border-gray-300'
               }`}
             >
               <div className="flex items-center space-x-2">
@@ -226,57 +226,57 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
             <div className="space-y-8">
               {/* Model Overview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Model Performance</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Model Performance</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Accuracy</span>
-                      <span className="font-semibold text-deloitte-primary">{spaceOptimizerData.accuracy.toFixed(1)}%</span>
+                      <span className="text-gray-600">Accuracy</span>
+                      <span className="font-semibold text-brand-primary">{spaceOptimizerData.accuracy.toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Predictions</span>
-                      <span className="font-semibold text-deloitte-dark">{spaceOptimizerData.predictions.peak_hours.length}</span>
+                      <span className="text-gray-600">Predictions</span>
+                      <span className="font-semibold text-brand-dark">{spaceOptimizerData.predictions.peak_hours.length}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Last Updated</span>
-                      <span className="font-semibold text-deloitte-gray-700">
+                      <span className="text-gray-600">Last Updated</span>
+                      <span className="font-semibold text-gray-700">
                         {new Date(spaceOptimizerData.lastUpdated).toLocaleTimeString()}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Space Utilization</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Space Utilization</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Next Week</span>
-                      <span className="font-semibold text-deloitte-accent">{spaceOptimizerData.predictions.next_week_utilization}%</span>
+                      <span className="text-gray-600">Next Week</span>
+                      <span className="font-semibold text-brand-accent">{spaceOptimizerData.predictions.next_week_utilization}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Peak Hours</span>
-                      <span className="font-semibold text-deloitte-dark">{spaceOptimizerData.predictions.peak_hours.join(', ')}:00</span>
+                      <span className="text-gray-600">Peak Hours</span>
+                      <span className="font-semibold text-brand-dark">{spaceOptimizerData.predictions.peak_hours.join(', ')}:00</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Optimization Score</span>
-                      <span className="font-semibold text-deloitte-secondary">{spaceOptimizerData.predictions.optimization_score}</span>
+                      <span className="text-gray-600">Optimization Score</span>
+                      <span className="font-semibold text-brand-secondary">{spaceOptimizerData.predictions.optimization_score}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Space Clustering</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Space Clustering</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">High Activity</span>
-                      <span className="font-semibold text-deloitte-primary">{spaceOptimizerData.clustering_results.high_activity_collaborative + spaceOptimizerData.clustering_results.high_activity_focused}</span>
+                      <span className="text-gray-600">High Activity</span>
+                      <span className="font-semibold text-brand-primary">{spaceOptimizerData.clustering_results.high_activity_collaborative + spaceOptimizerData.clustering_results.high_activity_focused}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Moderate Activity</span>
-                      <span className="font-semibold text-deloitte-accent">{spaceOptimizerData.clustering_results.moderate_activity}</span>
+                      <span className="text-gray-600">Moderate Activity</span>
+                      <span className="font-semibold text-brand-accent">{spaceOptimizerData.clustering_results.moderate_activity}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Underutilized</span>
+                      <span className="text-gray-600">Underutilized</span>
                       <span className="font-semibold text-yellow-600">{spaceOptimizerData.clustering_results.quiet_underutilized}</span>
                     </div>
                   </div>
@@ -284,29 +284,29 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               </div>
 
               {/* Feature Importance Chart */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">Feature Importance Analysis</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">Feature Importance Analysis</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={spaceOptimizerData.feature_importance} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis type="number" stroke="#6b7280" fontSize={12} />
                     <YAxis dataKey="feature" type="category" stroke="#6b7280" fontSize={12} width={120} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="importance" fill="#86BC25" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="importance" fill="#FFA500" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
 
               {/* Space Clustering Visualization */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">Space Clustering Results</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">Space Clustering Results</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <RechartsPieChart>
                     <Pie
                       data={[
-                        { name: 'High Activity Collaborative', value: spaceOptimizerData.clustering_results.high_activity_collaborative, fill: '#86BC25' },
-                        { name: 'High Activity Focused', value: spaceOptimizerData.clustering_results.high_activity_focused, fill: '#0076A8' },
-                        { name: 'Moderate Activity', value: spaceOptimizerData.clustering_results.moderate_activity, fill: '#00A651' },
+                        { name: 'High Activity Collaborative', value: spaceOptimizerData.clustering_results.high_activity_collaborative, fill: '#FFA500' },
+                        { name: 'High Activity Focused', value: spaceOptimizerData.clustering_results.high_activity_focused, fill: '#1E90FF' },
+                        { name: 'Moderate Activity', value: spaceOptimizerData.clustering_results.moderate_activity, fill: '#00B140' },
                         { name: 'Quiet/Underutilized', value: spaceOptimizerData.clustering_results.quiet_underutilized, fill: '#f59e0b' }
                       ]}
                       cx="50%"
@@ -321,35 +321,35 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               </div>
 
               {/* Recommendations */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">AI Recommendations</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">AI Recommendations</h3>
                 <div className="space-y-4">
                   {spaceOptimizerData.recommendations.map((rec: any) => (
-                    <div key={rec.id} className="flex items-start space-x-4 p-6 bg-deloitte-gray-50 rounded-xl border border-deloitte-gray-200 hover:bg-deloitte-gray-100 transition-all duration-200">
+                    <div key={rec.id} className="flex items-start space-x-4 p-6 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-all duration-200">
                       <div className="flex-shrink-0">
-                        <Lightbulb className="w-6 h-6 text-deloitte-primary" />
+                        <Lightbulb className="w-6 h-6 text-brand-primary" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-deloitte-dark mb-2">{rec.title}</h4>
-                        <p className="text-sm text-deloitte-gray-600 mb-3">{rec.description}</p>
+                        <h4 className="font-semibold text-brand-dark mb-2">{rec.title}</h4>
+                        <p className="text-sm text-gray-600 mb-3">{rec.description}</p>
                         <div className="flex items-center space-x-6 text-sm">
                           <div className="flex items-center space-x-2">
                             <DollarSign className="w-4 h-4 text-green-600" />
-                            <span className="text-deloitte-gray-700">Savings: {formatCurrency(rec.potential_savings)}</span>
+                            <span className="text-gray-700">Savings: {formatCurrency(rec.potential_savings)}</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Target className="w-4 h-4 text-deloitte-secondary" />
+                            <Target className="w-4 h-4 text-brand-secondary" />
                             <span className={`font-medium ${getConfidenceColor(rec.confidence)}`}>
                               Confidence: {formatPercentage(rec.confidence)}
                             </span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Clock className="w-4 h-4 text-deloitte-gray-400" />
-                            <span className="text-deloitte-gray-600">Effort: {rec.implementation_effort}</span>
+                            <Clock className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-600">Effort: {rec.implementation_effort}</span>
                           </div>
                         </div>
-                        <div className="mt-3 p-3 bg-deloitte-primary bg-opacity-5 rounded-lg">
-                          <p className="text-sm text-deloitte-primary font-medium">Impact: {rec.impact}</p>
+                        <div className="mt-3 p-3 bg-brand-primary bg-opacity-5 rounded-lg">
+                          <p className="text-sm text-brand-primary font-medium">Impact: {rec.impact}</p>
                         </div>
                       </div>
                     </div>
@@ -364,51 +364,51 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
             <div className="space-y-8">
               {/* Model Overview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Model Performance</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Model Performance</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Accuracy</span>
-                      <span className="font-semibold text-deloitte-primary">{energyPredictorData.accuracy.toFixed(1)}%</span>
+                      <span className="text-gray-600">Accuracy</span>
+                      <span className="font-semibold text-brand-primary">{energyPredictorData.accuracy.toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Anomalies</span>
+                      <span className="text-gray-600">Anomalies</span>
                       <span className="font-semibold text-red-600">{energyPredictorData.anomalies.length}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Last Updated</span>
-                      <span className="font-semibold text-deloitte-gray-700">
+                      <span className="text-gray-600">Last Updated</span>
+                      <span className="font-semibold text-gray-700">
                         {new Date(energyPredictorData.lastUpdated).toLocaleTimeString()}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Energy Predictions</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Energy Predictions</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Next Day</span>
-                      <span className="font-semibold text-deloitte-accent">{energyPredictorData.predictions.next_day_consumption.toFixed(1)} kWh</span>
+                      <span className="text-gray-600">Next Day</span>
+                      <span className="font-semibold text-brand-accent">{energyPredictorData.predictions.next_day_consumption.toFixed(1)} kWh</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Cost Prediction</span>
-                      <span className="font-semibold text-deloitte-dark">{formatCurrency(energyPredictorData.predictions.cost_prediction)}</span>
+                      <span className="text-gray-600">Cost Prediction</span>
+                      <span className="font-semibold text-brand-dark">{formatCurrency(energyPredictorData.predictions.cost_prediction)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-deloitte-gray-600">Efficiency Score</span>
-                      <span className="font-semibold text-deloitte-secondary">{energyPredictorData.predictions.efficiency_score}%</span>
+                      <span className="text-gray-600">Efficiency Score</span>
+                      <span className="font-semibold text-brand-secondary">{energyPredictorData.predictions.efficiency_score}%</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-deloitte-gray-50 p-6 rounded-xl border border-deloitte-gray-200">
-                  <h3 className="font-semibold text-deloitte-dark mb-3">Weekly Forecast</h3>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-brand-dark mb-3">Weekly Forecast</h3>
                   <div className="space-y-2">
                     {energyPredictorData.predictions.weekly_forecast.map((value: number, index: number) => (
                       <div key={index} className="flex justify-between text-sm">
-                        <span className="text-deloitte-gray-600">Day {index + 1}</span>
-                        <span className="font-medium text-deloitte-dark">{value.toFixed(0)} kWh</span>
+                        <span className="text-gray-600">Day {index + 1}</span>
+                        <span className="font-medium text-brand-dark">{value.toFixed(0)} kWh</span>
                       </div>
                     ))}
                   </div>
@@ -416,22 +416,22 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               </div>
 
               {/* Feature Importance Chart */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">Feature Importance Analysis</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">Feature Importance Analysis</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={energyPredictorData.feature_importance} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis type="number" stroke="#6b7280" fontSize={12} />
                     <YAxis dataKey="feature" type="category" stroke="#6b7280" fontSize={12} width={120} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="importance" fill="#0076A8" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="importance" fill="#1E90FF" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
 
               {/* Energy Anomalies */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">Energy Anomalies</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">Energy Anomalies</h3>
                 <div className="space-y-4">
                   {energyPredictorData.anomalies.map((anomaly: any) => (
                     <div key={anomaly.id} className="flex items-start space-x-4 p-6 bg-red-50 rounded-xl border border-red-200">
@@ -461,31 +461,31 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
               </div>
 
               {/* Energy Optimizations */}
-              <div className="bg-white p-6 rounded-xl border border-deloitte-gray-200">
-                <h3 className="text-lg font-semibold text-deloitte-dark mb-6">Energy Optimizations</h3>
+              <div className="bg-white p-6 rounded-xl border border-gray-200">
+                <h3 className="text-lg font-semibold text-brand-dark mb-6">Energy Optimizations</h3>
                 <div className="space-y-4">
                   {energyPredictorData.optimizations.map((opt: any) => (
-                    <div key={opt.id} className="flex items-start space-x-4 p-6 bg-deloitte-secondary bg-opacity-5 rounded-xl border border-deloitte-secondary border-opacity-20">
+                    <div key={opt.id} className="flex items-start space-x-4 p-6 bg-brand-secondary bg-opacity-5 rounded-xl border border-brand-secondary border-opacity-20">
                       <div className="flex-shrink-0">
-                        <Zap className="w-6 h-6 text-deloitte-secondary" />
+                        <Zap className="w-6 h-6 text-brand-secondary" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-deloitte-dark mb-2">{opt.title}</h4>
-                        <p className="text-sm text-deloitte-gray-600 mb-3">{opt.description}</p>
+                        <h4 className="font-semibold text-brand-dark mb-2">{opt.title}</h4>
+                        <p className="text-sm text-gray-600 mb-3">{opt.description}</p>
                         <div className="flex items-center space-x-6 text-sm">
                           <div className="flex items-center space-x-2">
                             <DollarSign className="w-4 h-4 text-green-600" />
-                            <span className="text-deloitte-gray-700">Savings: {formatCurrency(opt.potential_savings)}</span>
+                            <span className="text-gray-700">Savings: {formatCurrency(opt.potential_savings)}</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Target className="w-4 h-4 text-deloitte-secondary" />
+                            <Target className="w-4 h-4 text-brand-secondary" />
                             <span className={`font-medium ${getConfidenceColor(opt.confidence)}`}>
                               Confidence: {formatPercentage(opt.confidence)}
                             </span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Clock className="w-4 h-4 text-deloitte-gray-400" />
-                            <span className="text-deloitte-gray-600">Effort: {opt.implementation_effort}</span>
+                            <Clock className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-600">Effort: {opt.implementation_effort}</span>
                           </div>
                         </div>
                       </div>
@@ -499,7 +499,7 @@ const AIModelsView: React.FC<AIModelsViewProps> = ({ userType }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between text-sm text-deloitte-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500">
         <div className="flex items-center space-x-4">
           <span>Last updated: {new Date(lastUpdated).toLocaleString()}</span>
           {loading && (
