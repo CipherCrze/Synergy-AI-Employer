@@ -37,7 +37,15 @@ const EnergyAnalyticsView: React.FC<EnergyAnalyticsViewProps> = ({ userType }) =
       setEnergyData(dashboardData);
       setPredictions(predictionsData);
       setOptimization(optimizationData);
-      setAnalysis({ analysis: { temperature_correlation: 0.73, peak_hours: [9, 14, 16] } });
+      setAnalysis({ 
+        analysis: { 
+          temperature_correlation: 0.73, 
+          peak_hours: [9, 14, 16] 
+        },
+        insights: {
+          seasonal_patterns: true
+        }
+      });
     } catch (error) {
       setError('Failed to fetch energy data');
       console.error('Energy data fetch error:', error);

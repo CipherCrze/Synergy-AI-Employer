@@ -11,9 +11,17 @@
   
   body {
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    background-color: #F5F5F5;
     color: #2d3748;
     line-height: 1.6;
+  }
+
+  body {
+    background-color: #F5F5F5;
+  }
+
+  .dark body {
+    background-color: #111827;
+    color: #f9fafb;
   }
 
   h1, h2, h3, h4, h5, h6 {

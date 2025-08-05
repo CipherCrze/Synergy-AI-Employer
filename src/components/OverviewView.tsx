@@ -413,36 +413,38 @@ const OverviewView: React.FC<OverviewViewProps> = ({
             <div
               key={zone.id}
               className="aspect-square rounded cursor-pointer hover:opacity-80 transition-opacity"
-              style={{ backgroundColor: getZoneColor(zone.status) }}
+              style={{ backgroundColor: zone.status === 'free' ? '#FFA500' : 
+                                      zone.status === 'assigned' ? '#FFD700' : 
+                                      zone.status === 'occupied' ? '#1E90FF' : '#00B140' }}
               title={`Zone ${zone.id}: ${getZoneLabel(zone.status)}${zone.employee ? ` - ${zone.employee}` : ''}`}
             />
           ))}
         </div>
         
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(255, 165, 0, 0.1)', borderColor: 'rgba(255, 165, 0, 0.2)' }}>
-            <p className="text-2xl font-bold" style={{ color: '#FFA500' }}>
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20 bg-brand-available bg-opacity-10 border-brand-available border-opacity-20">
+            <p className="text-2xl font-bold text-brand-available">
               {zoneHeatmap.filter(z => z.status === 'free' || z.status === 'assigned').length}
             </p>
-            <p className="text-sm font-semibold" style={{ color: '#FFA500' }}>Available Spaces</p>
+            <p className="text-sm font-semibold text-brand-available">Available Spaces</p>
           </div>
-          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(255, 215, 0, 0.1)', borderColor: 'rgba(255, 215, 0, 0.2)' }}>
-            <p className="text-2xl font-bold" style={{ color: '#FFD700' }}>
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20 bg-brand-booked bg-opacity-10 border-brand-booked border-opacity-20">
+            <p className="text-2xl font-bold text-brand-booked">
               {zoneHeatmap.filter(z => z.status === 'assigned' || z.status === 'free').length}
             </p>
-            <p className="text-sm font-semibold" style={{ color: '#FFD700' }}>Booked</p>
+            <p className="text-sm font-semibold text-brand-booked">Booked</p>
           </div>
-          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(30, 144, 255, 0.1)', borderColor: 'rgba(30, 144, 255, 0.2)' }}>
-            <p className="text-2xl font-bold" style={{ color: '#1E90FF' }}>
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20 bg-brand-in-use bg-opacity-10 border-brand-in-use border-opacity-20">
+            <p className="text-2xl font-bold text-brand-in-use">
               {zoneHeatmap.filter(z => z.status === 'occupied').length}
             </p>
-            <p className="text-sm font-semibold" style={{ color: '#1E90FF' }}>In Use</p>
+            <p className="text-sm font-semibold text-brand-in-use">In Use</p>
           </div>
-          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20" style={{ backgroundColor: 'rgba(0, 177, 64, 0.1)', borderColor: 'rgba(0, 177, 64, 0.2)' }}>
-            <p className="text-2xl font-bold" style={{ color: '#00B140' }}>
+          <div className="p-5 rounded-xl cursor-pointer hover:bg-opacity-20 transition-all duration-200 border border-opacity-20 bg-brand-accent bg-opacity-10 border-brand-accent border-opacity-20">
+            <p className="text-2xl font-bold text-brand-accent">
               {zoneHeatmap.filter(z => z.status === 'hotdesk').length}
             </p>
-            <p className="text-sm font-semibold" style={{ color: '#00B140' }}>Hot Desks Available</p>
+            <p className="text-sm font-semibold text-brand-accent">Hot Desks Available</p>
           </div>
         </div>
       </div>
