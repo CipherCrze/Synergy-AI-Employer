@@ -31,6 +31,14 @@ export default {
             800: '#9A3412',
             900: '#7C2D12'
           }
+        },
+        workspace: {
+          primary: '#4E6EF2',    // Blue
+          secondary: '#F9AE44',  // Orange
+          tertiary: '#3C3C3C',   // Grey
+          available: '#4E6EF2',  // Blue for available
+          booked: '#F9AE44',     // Orange for booked
+          unavailable: '#3C3C3C' // Grey for unavailable
         }
       },
       spacing: {
