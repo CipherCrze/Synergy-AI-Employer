@@ -16,12 +16,30 @@
   }
 
   body {
-    background-color: #F5F5F5;
+    --tw-bg-opacity: 1;
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    color: rgb(249 250 251 / var(--tw-text-opacity));
   }
 
   .dark body {
-    background-color: #111827;
-    color: #f9fafb;
+    background-color: rgb(17 24 39);
+    color: rgb(249 250 251);
+  }
+
+  .dark .bg-white {
+    background-color: rgb(31 41 55);
+  }
+
+  .dark .text-gray-900 {
+    color: rgb(249 250 251);
+  }
+
+  .dark .text-gray-600 {
+    color: rgb(156 163 175);
+  }
+
+  .dark .border-gray-200 {
+    border-color: rgb(75 85 99);
   }
 
   h1, h2, h3, h4, h5, h6 {
