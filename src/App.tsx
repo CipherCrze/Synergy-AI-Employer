@@ -350,7 +350,7 @@ const SpaceOptimizerDashboard = () => {
               { id: 'energy', label: 'Energy', icon: Zap },
               { id: 'ai-models', label: 'AI Models', icon: Brain },
               { id: 'conflicts', label: 'Conflicts', icon: AlertTriangle },
-              { id: 'reports', label: 'Reports', icon: null }
+              { id: 'reports', label: 'Reports', icon: null },
               { id: 'workspace', label: 'Workspace', icon: Building2 }
             ].map((tab) => (
               <button
