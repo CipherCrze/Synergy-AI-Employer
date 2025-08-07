@@ -16,30 +16,64 @@
   }
 
   body {
-    --tw-bg-opacity: 1;
-    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-    color: rgb(249 250 251 / var(--tw-text-opacity));
+    background-color: #F5F5F5;
+    color: #2d3748;
   }
 
-  .dark body {
+  body.dark {
     background-color: rgb(17 24 39);
     color: rgb(249 250 251);
   }
 
+  /* Dark mode overrides */
   .dark .bg-white {
-    background-color: rgb(31 41 55);
+    background-color: rgb(31 41 55) !important;
   }
 
   .dark .text-gray-900 {
-    color: rgb(249 250 251);
+    color: rgb(249 250 251) !important;
   }
 
   .dark .text-gray-600 {
-    color: rgb(156 163 175);
+    color: rgb(156 163 175) !important;
+  }
+
+  .dark .text-gray-700 {
+    color: rgb(209 213 219) !important;
+  }
+
+  .dark .text-gray-800 {
+    color: rgb(229 231 235) !important;
   }
 
   .dark .border-gray-200 {
-    border-color: rgb(75 85 99);
+    border-color: rgb(75 85 99) !important;
+  }
+
+  .dark .border-gray-300 {
+    border-color: rgb(75 85 99) !important;
+  }
+
+  .dark .bg-gray-50 {
+    background-color: rgb(55 65 81) !important;
+  }
+
+  .dark .bg-gray-100 {
+    background-color: rgb(55 65 81) !important;
+  }
+
+  /* Ensure text visibility in dark mode */
+  .dark input,
+  .dark select,
+  .dark textarea {
+    color: rgb(249 250 251) !important;
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(75 85 99) !important;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: rgb(156 163 175) !important;
   }
 
   h1, h2, h3, h4, h5, h6 {

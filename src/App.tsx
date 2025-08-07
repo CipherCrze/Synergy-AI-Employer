@@ -135,6 +135,9 @@ const SpaceOptimizerDashboard = () => {
   const handleLogout = async () => {
     try {
       await apiService.logout();
+      localStorage.removeItem('user_data');
+      localStorage.removeItem('user_type');
+      localStorage.removeItem('auth_token');
       setUser(null);
       setUserType(null);
       setIsProfileOpen(false);
@@ -142,6 +145,9 @@ const SpaceOptimizerDashboard = () => {
     } catch (error) {
       console.error('Logout error:', error);
       // Force logout even if API call fails
+      localStorage.removeItem('user_data');
+      localStorage.removeItem('user_type');
+      localStorage.removeItem('auth_token');
       setUser(null);
       setUserType(null);
       setIsProfileOpen(false);
