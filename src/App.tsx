@@ -229,14 +229,6 @@ const SpaceOptimizerDashboard = () => {
         );
       case 'energy':
         return <EnergyAnalyticsView userType={userType!} />;
-      case 'ai-models':
-        return (
-          <AIModelsView 
-            spaceOptimizerData={spaceOptimizerData}
-            energyPredictorData={energyPredictorData}
-            userType={userType!}
-          />
-        );
       case 'conflicts':
         return <ConflictResolutionView userType={userType!} />;
       case 'workspace':
@@ -274,16 +266,7 @@ const SpaceOptimizerDashboard = () => {
             </div>
 
             {/* Center - Search */}
-            <div className="flex-1 max-w-md mx-8">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search spaces, employees, or analytics..."
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                />
-              </div>
-            </div>
+            <div className="flex-1"></div>
 
             {/* Right side - Controls */}
             <div className="flex items-center space-x-3">
@@ -299,15 +282,6 @@ const SpaceOptimizerDashboard = () => {
                 <option value="month">This Month</option>
                 <option value="quarter">This Quarter</option>
               </select>
-
-              {/* Dark Mode Toggle */}
-              <button 
-                onClick={toggleTheme}
-                className="p-2.5 text-gray-600 dark:text-gray-300 hover:text-brand-dark dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors"
-                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-              >
-                {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-              </button>
 
               {/* Refresh Button */}
               <button 
@@ -354,7 +328,6 @@ const SpaceOptimizerDashboard = () => {
               { id: 'spaces', label: 'Spaces', icon: null },
               { id: 'employees', label: 'Employees', icon: null },
               { id: 'energy', label: 'Energy', icon: Zap },
-              { id: 'ai-models', label: 'AI Models', icon: Brain },
               { id: 'conflicts', label: 'Conflicts', icon: AlertTriangle },
               { id: 'reports', label: 'Reports', icon: null },
               { id: 'workspace', label: 'Workspace', icon: Building2 }
@@ -385,6 +358,8 @@ const SpaceOptimizerDashboard = () => {
       <ProfileSidebar
         user={user}
         userType={userType!}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         isOpen={isProfileOpen}
         onClose={() => setIsProfileOpen(false)}
         onLogout={handleLogout}

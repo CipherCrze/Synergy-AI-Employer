@@ -39,6 +39,8 @@ interface UserData {
 interface ProfileSidebarProps {
   user: UserData;
   userType: 'employer' | 'executive';
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => void;
@@ -48,6 +50,8 @@ interface ProfileSidebarProps {
 const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ 
   user, 
   userType, 
+  theme,
+  onToggleTheme,
   isOpen, 
   onClose, 
   onLogout,
@@ -344,10 +348,10 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <Bell className="w-5 h-5 text-gray-600" />
+                    <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                     <div>
-                      <p className="font-medium text-gray-900">Email Notifications</p>
-                      <p className="text-sm text-gray-600">Receive updates via email</p>
+                      <p className="font-medium text-gray-900 dark:text-white">Email Notifications</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Receive updates via email</p>
                     </div>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
@@ -358,10 +362,10 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <Clock className="w-5 h-5 text-gray-600" />
+                    <Clock className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                     <div>
-                      <p className="font-medium text-gray-900">Real-time Updates</p>
-                      <p className="text-sm text-gray-600">Live dashboard updates</p>
+                      <p className="font-medium text-gray-900 dark:text-white">Real-time Updates</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Live dashboard updates</p>
                     </div>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
@@ -372,16 +376,42 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <Shield className="w-5 h-5 text-gray-600" />
+                    <Shield className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                     <div>
-                      <p className="font-medium text-gray-900">Two-Factor Authentication</p>
-                      <p className="text-sm text-gray-600">Enhanced security</p>
+                      <p className="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Enhanced security</p>
                     </div>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                   </label>
+                </div>
+
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    {theme === 'light' ? (
+                      <Moon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    ) : (
+                      <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    )}
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white">Dark Mode</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Switch to {theme === 'light' ? 'dark' : 'light'} theme</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={onToggleTheme}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                      theme === 'dark' ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
                 </div>
               </div>
             </div>
