@@ -18,7 +18,9 @@ import {
   Users,
   BarChart3,
   Clock,
-  Award
+  Award,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 interface UserData {
