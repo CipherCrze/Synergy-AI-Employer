@@ -309,7 +309,7 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ userType }) => {
                     </div>
                   </td>
                   <td className="py-4 px-6 text-sm text-gray-600">
-                    {new Date(employee.last_seen).toLocaleDateString()}
+                    {employee.last_seen ? new Date(employee.last_seen).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
@@ -434,7 +434,7 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ userType }) => {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-3">Recent Activity</h3>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <p>• Last seen: {new Date(selectedEmployee.last_seen).toLocaleDateString()}</p>
+                  <p>• Last seen: {selectedEmployee.last_seen ? new Date(selectedEmployee.last_seen).toLocaleDateString() : 'N/A'}</p>
                   <p>• Active projects: {selectedEmployee.projects}</p>
                   <p>• Hours today: {selectedEmployee.hours_today.toFixed(1)}</p>
                   <p>• Current status: {selectedEmployee.status.replace('_', ' ')}</p>
