@@ -425,7 +425,7 @@ const SpacesView: React.FC<SpacesViewProps> = ({ zoneHeatmap, userType }) => {
                     <p><span className="text-gray-600">Temperature:</span> {selectedSpace.temperature.toFixed(1)}°C</p>
                     <p><span className="text-gray-600">Humidity:</span> {selectedSpace.humidity.toFixed(1)}%</p>
                     <p><span className="text-gray-600">Noise Level:</span> {selectedSpace.noise.toFixed(0)}dB</p>
-                    <p><span className="text-gray-600">Air Quality:</span> {selectedSpace.airQuality.toFixed(0)}/100</p>
+                    <p><span className="text-gray-600">Air Quality:</span> {selectedSpace.air_quality.toFixed(0)}/100</p>
                     <p><span className="text-gray-600">Rating:</span> {selectedSpace.rating.toFixed(1)}/5</p>
                   </div>
                 </div>
