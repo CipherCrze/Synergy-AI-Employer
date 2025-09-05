@@ -309,7 +309,11 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ userType }) => {
                     </div>
                   </td>
                   <td className="py-4 px-6 text-sm text-gray-600">
-                    {employee.last_seen ? new Date(employee.last_seen).toLocaleDateString() : 'N/A'}
+                    {(() => {
+                      if (!employee.last_seen) return 'N/A';
+                      const date = new Date(employee.last_seen);
+                      return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+                    })()}
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
@@ -402,7 +406,11 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ userType }) => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <Calendar className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm text-gray-900">Joined {selectedEmployee.joinDate.toLocaleDateString()}</span>
+                      <span className="text-sm text-gray-900">Joined {(() => {
+                        if (!selectedEmployee.joinDate) return 'N/A';
+                        const date = selectedEmployee.joinDate instanceof Date ? selectedEmployee.joinDate : new Date(selectedEmployee.joinDate);
+                        return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+                      })()}</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Clock className="w-4 h-4 text-gray-400" />
@@ -434,7 +442,11 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ userType }) => {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-3">Recent Activity</h3>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <p>• Last seen: {selectedEmployee.last_seen ? new Date(selectedEmployee.last_seen).toLocaleDateString() : 'N/A'}</p>
+                  <p>• Last seen: {(() => {
+                    if (!selectedEmployee.last_seen) return 'N/A';
+                    const date = new Date(selectedEmployee.last_seen);
+                    return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+                  })()}</p>
                   <p>• Active projects: {selectedEmployee.projects}</p>
                   <p>• Hours today: {selectedEmployee.hours_today.toFixed(1)}</p>
                   <p>• Current status: {selectedEmployee.status.replace('_', ' ')}</p>
